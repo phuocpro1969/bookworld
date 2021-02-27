@@ -4,9 +4,9 @@
 # ===============================
 spring:
   datasource:
-    url: jdbc:mysql://45.252.249.11:3306/hoangva1_bookworld
-    username: hoangva1_nguyenduyhieu
-    password: 05071999@111
+    url:jdbc:mysql://localhost:3306/bookworld
+    username: root
+    password: 
 
 # ===============================
 # = JPA configurations
