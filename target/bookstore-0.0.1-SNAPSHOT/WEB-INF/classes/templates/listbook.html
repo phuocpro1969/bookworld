@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Book Store</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/css/listbook.css}" rel="stylesheet" type="text/css" />
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+	th:src="@{/webjars/jquery/1.12.4/jquery.min.js}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+	<nav th:replace="indexheader :: ${header}"></nav>
+
+	<div id="templatemo_container">
+		<div id="templatemo_content">
+
+			<div id="templatemo_content_left">
+				<nav th:replace="indexheader :: templatemo_content_left_sec"></nav>
+			</div>
+			<!-- end of content left -->
+			<div id="templatemo_content_right">
+				<h1>List Book</h1>
+
+				<div class="gom">
+					<a th:href="@{/bookview/createform}"
+						style="font-size: 14pt; margin: 30px 0px 10px 20px; float: left">Add
+						New Book</a>
+					<form class="searchbar" th:action="@{/book/search/1}" method="get">
+						<div class="form-group searchs">
+							<input type="text" class="form-control" name="s"
+								placeholder="Search type book..."
+								style="margin: -10px 0px -3px -75px; padding: 0px 42px 0px 20px;" />
+							<button type="submit" class="btn btn-primary"
+								style="margin: -45px 0px 0px 77px; margin: -45px 10px 1px 130px;">
+								<img th:src="@{/images/icon_search.png}"
+									style="width: 30px; height: 30px;">
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<th:block th:if="${#lists.isEmpty(books.pageList)}">
+					<br>
+					<br>
+					<br>
+					<br>
+					<h1>No book</h1>
+				</th:block>
+
+
+				<th:block th:unless="${#lists.isEmpty(list2)}">
+
+					<div class="menu">
+						<div class="product book1" th:each="contact,iterStat : ${books2}">
+							<div class="images">
+								<img th:src="@{/images/templatemo_image_01.jpg}"
+									style="width: 30px; height: 30px; margin: 0px 0px 0px 10px;">
+							</div>
+
+							<ul style="margin: -10px 0px 0px 0px;">
+								</br>
+								<li>Code: <span th:text="${contact.id}"
+									th:title="${contact.id}"></span></li>
+								<li>Title: <span th:text="${contact.title}"
+									th:title="${contact.title}"></span></li>
+								<li>Author: <span th:text="${contact.authors}"
+									th:title="${contact.authors}"></span></li>
+								<div class="buy_now_button">
+									<a href="subpage.html" style="margin: 10px 0px 7px 0px;">Buy
+										Now</a>
+								</div>
+								<div class="detail_button">
+									<a th:href="@{/bookview/infor/{id}(id=${contact.id})}">Detail</a>
+								</div>
+								<div>
+									<a th:href="@{/bookview/editform/{id}(id=${contact.id})}"><span></span>Edit</a>
+									<a th:href="@{/book/{id}/delete(id=${contact.id})}"><span></span>Delete</a>
+									</td>
+								</div>
+							</ul>
+
+						</div>
+					</div>
+
+				</th:block>
+
+				<nav th:fragment="menubook">
+					<th:block th:unless="${#lists.isEmpty(books.pageList)}">
+						<div class="menu">
+							<div class="product book1"
+								th:each="contact,iterStat : ${books.pageList}">
+								<div class="images">
+									<img th:src="@{|/img/bookscover/${contact.picture}|}"
+										style="width: 30px; height: 30px; margin: 0px 0px 0px 10px;">
+								</div>
+
+								<ul style="margin: -10px 0px 0px 0px;">
+									</br>
+									<li>Code: <span th:text="${contact.id}"
+										th:title="${contact.id}"></span></li>
+									<li>Title: <span th:text="${contact.title}"
+										th:title="${contact.title}"></span></li>
+									<li>Author: <span th:text="${contact.authors}"
+										th:title="${contact.authors}"></span></li>
+									<div class="buy_now_button">
+										<a href="subpage.html" style="margin: 2px 0px 5px 0px;">Buy
+											Now</a>
+									</div>
+									<div class="detail_button">
+										<a th:href="@{/bookview/infor/{id}(id=${contact.id})}">Detail</a>
+									</div>
+									<div th:if="${ok == 'TRUE'} or ${contact.ok == 1}"
+										style="margin: -12px 0px 0px 90px;">
+										<a th:href="@{/bookview/editform/{id}(id=${contact.id})}"><span></span>Edit</a>
+										<a th:href="@{/book/{id}/delete(id=${contact.id})}"><span></span>Delete</a>
+									</div>
+								</ul>
+
+							</div>
+						</div>
+						<div class="cleaner_with_height">&nbsp;</div>
+						<ul class="pagination" style="margin: 20px 0px 0px 0px;">
+							<li
+								th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'">
+								<a class="page-link" th:href="@{|${baseUrl}1|}">First</a>
+							</li>
+							<li
+								th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+								<a class="page-link" aria-label="Previous"
+								th:href="@{|${baseUrl}${currentIndex - 1}|}"
+								title='Go to previous page'><span aria-hidden="true">«</span>
+									<span class="sr-only"></span></a>
+							</li>
+							<li th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
+								th:class="${item == currentIndex ? 'page-item active' :'page-item' }">
+								<a class="page-link" th:href="@{|${baseUrl}${item}|}"> <span
+									th:text='${item}'>1</span>
+							</a>
+							</li>
+							<li
+								th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'">
+								<a class="page-link" aria-label="Next"
+								th:href="@{|${baseUrl}${currentIndex + 1}|}"
+								title='Go to next page'><span aria-hidden="true">»</span> <span
+									class="sr-only"></span></a>
+							</li>
+							<li
+								th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'">
+								<a class="page-link" th:href="@{|${baseUrl}${totalPageCount}|}">Last</a>
+							</li>
+						</ul>
+					</th:block>
+				</nav>
+				<!-- /.container -->
+			</div>
+
+
+			<!-- end of content right -->
+			<div class="cleaner_with_height"></div>
+			<!-- end of content -->
+			<footer th:replace="indexheader :: ${footer}"></footer>
+</body>
+</html>

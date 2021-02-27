@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+
+	<title>BOOK INFORMATION</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+	<!-- Favicon -->
+	<link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+	<!-- Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+		rel="stylesheet" />
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+
+	<!-- Mobile Menu -->
+	<link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+	<!-- Stylesheet -->
+
+	  <!-- Responsive Table -->
+	  <link rel="stylesheet" type="text/css" th:href="@{/css/responsivetable.css}" />
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+img {
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	width: 100%;
+	height: 80%;
+}
+
+
+.con{
+	color: #cbc750;
+	font-size: 15px;
+}
+</style>
+
+</head>
+<body>
+
+	<nav th:replace="header :: ${header}"></nav>
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>BOOK INFORMATION</h2>
+				<span class="underline center"></span>
+
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li>Book Information</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
+
+
+	 <!-- Start: Products Section -->
+	 <div id="content" class="site-content">
+		<div id="primary" class="content-area">
+			<main id="main" class="site-main">
+				<div class="booksmedia-detail-main">
+					<div class="container">
+						<div class="row">
+							<!-- Start: Search Section -->
+							<section class="search-filters">
+								<div class="container">
+									<div class="filter-box">
+										<h3>What are you looking for at the library?</h3>
+										<form th:action="@{/book/search/1}" method="get">
+											<div class="col-md-4 col-sm-6">
+												<div class="form-group">
+													<label class="sr-only" for="s">Search by Keyword</label>
+													<input class="form-control" placeholder="Search by Keyword" id="keywords" name="s" type="text">
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-6">
+												<div class="form-group" >
+													<select name="catalog" id="catalog" class="form-control">
+														<option>Search the Catalog</option>
+														<option>Catalog 01</option>
+														<option>Catalog 02</option>
+														<option>Catalog 03</option>
+														<option>Catalog 04</option>
+														<option>Catalog 05</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-3 col-sm-6">
+												<div class="form-group">
+													<select name="category" id="category" class="form-control">
+														<option>All Categories</option>
+														<option>Category 01</option>
+														<option>Category 02</option>
+														<option>Category 03</option>
+														<option>Category 04</option>
+														<option>Category 05</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-2 col-sm-6">
+												<div class="form-group">
+													<input class="form-control" type="submit" value="Search">
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</section>
+							<!-- End: Search Section -->
+						</div>
+						<div class="booksmedia-detail-box">
+							<div class="detailed-box">
+								<div class="col-xs-12 col-sm-5 col-md-3">
+									<div class="post-thumbnail">
+										<div class="book-list-icon blue-icon"></div>
+										<!-- <img th:src="@{'/img/bookscover/'+${book.picture}}"
+										th:if="${book.picture != null}" style="width: 355px; height: 266px;" alt="Book Image" />
+										 <img th:src="@{/images/lol1.gif}" th:if="${book.picture == null}"
+										style="width: 355px; height: 266px;" /> -->
+
+										<img th:src="@{|/bookImage?bookId=${book.id}|}" style="width: 285px; height: 431px;" th:if="${book.picture != null}" />
+										<img th:src="@{/images/lol1.gif}" th:if="${book.picture == null}"
+										style="width: 355px; height: 266px;" />
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-7 col-md-6">
+									<div class="post-center-content" th:object="${dto}">
+										<h2 th:text="${dto.title}"></h2>
+										<p><strong>Author:</strong><span th:text="${dto.authors}"></span></p>
+										<p><strong>Price: </strong><span th:text="${dto.price}"></span></p>
+										<p><strong>Domain: </strong><span th:text="${dto.domain}"></span></p>
+										<p><strong>Update Date: </strong><span th:text="${dto.uploadedDate}"></span></p>
+										<p><strong>Publisher: </strong><span th:text="${publisher}"></span></p>
+										<p><strong>Publisher Year: </strong><span th:text="${dto.publishedYear}"></span></p>
+										<p><strong>Categories: </strong><span id="categories" th:text="${stringCategories}"></span></p>
+										<script th:inline="javascript">
+											/*<![CDATA[*/
+											$(document).ready(
+													function() {
+														function removeLastComma(strng) {
+															var n = strng.lastIndexOf(",");
+															var a = strng.substring(0, n)
+															return a;
+														}
+														var string = $("#categories").text();
+														var substring = $("#categories").text(
+																removeLastComma(string));
+													});
+											/*]]>*/
+										</script>
+										<div class="actions">
+											<ul>
+												<li>
+													<a th:href="@{|/buyBook?bookId=${book.id}|}" target="_blank" data-toggle="blog-tags" data-placement="top" title="" data-original-title="Add To Cart">
+														<i class="fa fa-shopping-cart"></i>
+													</a>
+												</li>
+												<li>
+													<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="" data-original-title="Like">
+														<i class="fa fa-heart"></i>
+													</a>
+												</li>
+											
+												<li>
+												   
+														<a th:href="@{/bookview/editform/{id}(id=${id})}" target="_blank" data-toggle="blog-tags"  data-placement="top" title="" data-original-title="Edit">
+															<i class="fa fa-edit"></i>
+														</a>
+												  
+												</li>
+										
+	
+												<li>
+													<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="" data-original-title="Search">
+														<i class="fa fa-search"></i>
+													</a>
+												</li>
+												<li>
+													<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="" data-original-title="Print">
+														<i class="fa fa-print"></i>
+													</a>
+												</li>
+												<li>
+													<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="" data-original-title="Print">
+														<i class="fa fa-share-alt"></i>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-3 ">
+									<div class="post-right-content">
+										<h4>Available now</h4>
+										<p><strong>Total Copies:</strong> 01</p>
+										<p><strong>Available:</strong> 019780062419385</p>
+										<p><strong>Holds:</strong>  01</p>
+										<p><strong>On the shelves now at:</strong> Lawrence Public Library</p>
+										<p><strong>Call #:</strong> 747 STRUTT C</p>
+										<a href="#." class="available-location">Availability by Location <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+										<a href="#." class="btn btn-dark-gray">Place a Hold</a> 
+										<a href="#." class="btn btn-dark-gray">View sample</a> 
+										<a href="#." class="btn btn-dark-gray">Find Similar Titles</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="clearfix"></div>
+							<p><strong>Description: </strong><span th:text="${dto.description}"></span></p>
+	
+							<div class="table-tabs" id="responsiveTabs">
+								<ul class="nav nav-tabs">
+									<li class="active"><b class="arrow-up"></b><a data-toggle="tab" href="#sectionA">Copies: 05</a></li>
+									<li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionB">Reviews (12)</a></li>
+									<li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionC">Table of Contents</a></li>
+									<li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionD">Novelist Recommendations</a></li> 
+								</ul>
+								<div class="tab-content">
+									<div id="sectionA" class="tab-pane fade in active">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th>Library Name</th>
+													<th>Shelf Number</th>
+													<th>Material Type</th>
+													<th>Status </th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Oak Park Public Library Main Branch</td>
+													<td>B PURMORT</td>
+													<td>Book</td>
+													<td>In Processing</td>                                                                    
+												</tr>
+												<tr>
+													<td>Bedford Park Public Library District</td>
+													<td>616.99 PUR</td>
+													<td>Book</td>
+													<td>Due 8/24/16</td>
+												</tr>
+												<tr>
+													<td>Blue Island Public Library</td>
+													<td>BIO PUR</td>
+													<td>eBook</td>
+													<td>Due 8/24/16</td>
+												</tr>
+												<tr>
+													<td>Bridgeview Public Library</td>
+													<td>B PUR</td>
+													<td>DVD</td>
+													<td>In Processing</td>
+												</tr>
+												<tr>
+													<td>Eisenhower Public Library District</td>
+													<td>616.994 PUR</td>
+													<td>Magazine</td>
+													<td>Checked In</td>
+												</tr>
+												<tr>
+													<td>Forest Park Public Library</td>
+													<td>BIO PURMORT</td>
+													<td>Magazine</td>
+													<td>Checked In</td>
+												</tr>
+												<tr>
+													<td>Hinsdale Public Library</td>
+													<td>B PUR</td>
+													<td>Audio</td>
+													<td>Checked In</td>
+												</tr>
+												<tr>
+													<td>Oak Park Public Library Maze Branch</td>
+													<td>616.99 PUR</td>
+													<td>Audio</td>
+													<td>Due 9/10/16</td>
+												</tr>
+												<tr>
+													<td>River Grove Public Library District</td>
+													<td>616.994 PURMORT</td>
+													<td>Book</td>
+													<td>Due 9/10/16</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div id="sectionB" class="tab-pane fade in">
+										<h5>Lorem Ipsum Dolor</h5>
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+									</div>
+									<div id="sectionC" class="tab-pane fade in">
+										<h5>Lorem Ipsum Dolor</h5>
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+									</div>
+									<div id="sectionD" class="tab-pane fade in">
+										<h5>Lorem Ipsum Dolor</h5>
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+									</div>                                                    
+									<div id="sectionE" class="tab-pane fade in">
+										<h5>Lorem Ipsum Dolor</h5>
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+									</div>                                                    
+									<div id="sectionF" class="tab-pane fade in">
+										<h5>Lorem Ipsum Dolor</h5>
+										<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+	<!-- End: Products Section -->
+	<div class="cleaner_with_height"></div>
+	<footer th:replace="footer :: ${footer}"></footer>
+</body>
+
+<!-- jQuery Latest Version 1.x -->
+<script type="text/javascript"  th:src="@{/js/jquery-1.12.4.min.js}"></script>
+        
+<!-- jQuery UI -->
+<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+<!-- jQuery Easing -->
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Mobile Menu -->
+<script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+<!-- Harvey - State manager for media queries -->
+<script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+<!-- Waypoints - Load Elements on View -->
+<script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+<!-- Facts Counter -->
+<script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+<!-- MixItUp - Category Filter -->
+<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+<!-- Owl Carousel -->
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+<!-- Accordion -->
+<script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+<!-- Responsive Tabs -->
+<script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+<!-- Responsive Table -->
+<script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+<!-- Masonry -->
+<script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+<!-- Carousel Swipe -->
+<script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+<!-- bxSlider -->
+<script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</html>

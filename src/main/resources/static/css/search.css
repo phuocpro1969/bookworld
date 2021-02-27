@@ -1,0 +1,13 @@
+.ui-widget li:hover{
+    background-color: #ff7236;
+}
+
+.ui-widget img{
+    height: 80px;
+    width: 80px;
+}
+
+.ui-widget li{
+    list-style-type: none;
+}
+

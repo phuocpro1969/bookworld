@@ -1,0 +1,257 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>LIST ACCOUNT</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+	<!-- Favicon -->
+	<link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+	<!-- Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+		rel="stylesheet" />
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+
+	<!-- Mobile Menu -->
+	<link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+	<!-- Stylesheet -->
+	<!-- Accordion Stylesheet -->
+	<link th:href="@{/css/jquery.accordion.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style>
+		tr {
+			font-weight: bold;
+			background-color:#EEEEEE;
+		
+		}
+
+		span:hover {
+			color: rgba(255, 0, 0, 0.2);
+			position: relative;
+		}
+
+		tr:hover {
+			background-color: #b4adab;
+		}
+	</style>
+	<title>User's List</title>
+</head>
+
+<body>
+	<nav th:replace="header :: ${header}"></nav>
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>List Account</h2>
+				<span class="underline center"></span>
+
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li>List Account</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
+
+	<div class="container">
+		</br>
+		<div class="row">
+			<a th:href="@{/listUser/adminAddUser}" class="btn btn-default"
+				style="font-size: 12pt; float: left; padding: 5px 20px 5px 20px;">NEW
+				USER</a>
+		</div>
+
+		<div class="row">
+			<form class="searchUser" th:action="@{/listUser/search/1}" method="get">
+				<div class="col-sm-4">
+
+				</div>
+
+				<div class="col-sm-4">
+					<input autocomplete="on" type="text" class="form-control" name="keyword" id="key"
+						placeholder="Type username, firstname lastname, id..." style="border-color: #b4adab; height:40px;"/>
+				</div>
+				
+				<div class="col-sm-4">
+					<button type="submit" class="btn btn-primary" style="border-radius: 5px; background-color:hsla(0, 100%, 50%, 0.3);">
+						<img th:src="@{/images/icon_search.png}" style="width: 20px; height: 20px;"></img>
+					</button>
+				</div>
+
+
+			</form>
+		</div>
+		</br>
+		<div class="row">
+			<h3 th:text="'Amount: ' + ${#lists.size(list.pageList)}"></h3>
+
+			<th:block th:if="${#lists.isEmpty(list.pageList)}">
+					<div class="table">
+						<h1>No User Available</h1>
+					</div>
+				</th:block>
+
+				<th:block th:unless="${#lists.isEmpty(list.pageList)}">
+					<table class="table" >
+						<thead>
+							<tr >
+								<th>ID</th>
+								<th>USERNAME</th>
+								<th>FIRSTNAME</th>
+								<th>LASTNAME</th>
+								<th>POWER</th>
+								<th>UPDATE</th>
+								<th>DELETE</th>
+							</tr>
+						</thead>
+						<tbody id="content-list-user">
+							<tr th:each="user : ${list.pageList}">
+								<td><span th:text="${user.id}" th:title="${user.id}">ID</span></td>
+								<td><span th:text="${user.username}"
+									th:title="${user.username}">USERNAME</span></td>
+								<td><span th:text="${user.firstname}"
+									th:title="${user.firstname}">FIRSTNAME</span></td>
+								<td><span th:text="${user.lastname}"
+									th:title="${user.lastname}">LASTNAME</span></td>
+								<td><span th:text="${user.power}" th:title="${user.power}">POWER</span></td>
+								<td><a th:href="@{'/listUser/edit-user-'+${user.id}}">UPDATE</a></td>
+								<td><a th:href="@{'/listUser/delete-user-'+${user.id}}">DELETE</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="row">
+						<div class="col-sm-5">
+							
+						</div>
+						<div class="col-sm-4">
+							<ul class="pagination" style="font-weight:bold;">
+								<li
+									th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'">
+									<a class="page-link" th:href="@{|${baseUrl}1|}">First</a>
+								</li>
+								<li
+									th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+									<a class="page-link" aria-label="Previous"
+									th:href="@{|${baseUrl}${currentIndex - 1}|}"
+									title='Go to previous page'><span aria-hidden="true">«</span>
+										<span class="sr-only"></span></a>
+								</li>
+								<li th:each="item : ${#numbers.sequence(beginIndex, endIndex)}"
+									th:class="${item == currentIndex ? 'page-item active' :'page-item' }">
+									<a class="page-link" th:href="@{|${baseUrl}${item}|}"> <span
+										th:text='${item}'>1</span>
+								</a>
+								</li>
+								<li
+									th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'">
+									<a class="page-link" aria-label="Next"
+									th:href="@{|${baseUrl}${currentIndex + 1}|}"
+									title='Go to next page'><span aria-hidden="true">»</span> <span
+										class="sr-only"></span></a>
+								</li>
+								<li
+									th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'">
+									<a class="page-link" th:href="@{|${baseUrl}${totalPageCount}|}">Last</a>
+								</li>
+							</ul>
+						</div>
+						<div class="col-sm-3">
+							
+						</div>
+
+						
+					</div>
+				</th:block>
+			</div>
+			
+			
+				
+			<div class="cleaner_with_height"></div>
+		</div>
+	</div>
+	<!-- end of content right -->
+	<footer th:replace="footer :: ${footer}"></footer>
+</body>
+
+<!-- jQuery Latest Version 1.x -->
+<script type="text/javascript"  th:src="@{/js/jquery-1.12.4.min.js}"></script>
+        
+<!-- jQuery UI -->
+<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+<!-- jQuery Easing -->
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Mobile Menu -->
+<script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+<!-- Harvey - State manager for media queries -->
+<script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+<!-- Waypoints - Load Elements on View -->
+<script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+<!-- Facts Counter -->
+<script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+<!-- MixItUp - Category Filter -->
+<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+<!-- Owl Carousel -->
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+<!-- Accordion -->
+<script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+<!-- Responsive Tabs -->
+<script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+<!-- Responsive Table -->
+<script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+<!-- Masonry -->
+<script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+<!-- Carousel Swipe -->
+<script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+<!-- bxSlider -->
+<script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+<script>
+	/// Search thông tin
+	$(document).ready(function () {
+		$("#key").on("keyup", function () {
+			var value = $(this).val().toLowerCase();
+			$("#content-list-user tr").filter(function () {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+			});
+		});
+	});
+</script>
+</html>

@@ -1,0 +1,40 @@
+* {
+    font-family: Verdana; /* Change your font family */
+  }
+  
+  .content-table {
+    border-collapse: collapse;
+    margin: 31px;
+    padding-left: 20px;
+    background-color: rgba(255,255,255);
+    color: black;
+    align-content: center;
+    font-size: 7px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+  }
+  
+  .content-table thead tr {
+    color: rgb(26, 238, 18);
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .content-table th,
+  .content-table td {
+    padding: 14px 15px;
+  }
+  
+  .content-table tbody tr {
+    border-bottom: 2px solid #dddddd;
+  }
+  
+  .content-table tbody tr:last-of-type {
+    border-bottom: 5px solid #009879;
+  }
+  
+  .content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+  }
+  

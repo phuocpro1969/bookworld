@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>LIST BOOKS</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+   
+    <!-- Favicon -->
+    <link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+        rel="stylesheet" />
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+    <!-- Mobile Menu -->
+    <link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+    <!-- Stylesheet -->
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+
+    
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link th:href="@{/css/search.css}" rel="stylesheet" type="text/css" />
+    
+</head>
+
+<body>
+
+    <nav th:replace="header :: ${header}"></nav>
+    <!-- Start: Page Banner -->
+    <section class="page-banner services-banner">
+        <div class="container">
+            <div class="banner-header">
+                <h2>Listbook</h2>
+                <span class="underline center"></span>
+                <p class="lead">Proin ac eros pellentesque dolor pharetra tempo.</p>
+            </div>
+            <div class="breadcrumb">
+                <ul>
+                    <li><a href="index-2.html">Home</a></li>
+                    <li>Signin</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- End: Page Banner -->
+    
+    <!-- Start: Search Section -->
+    
+    <section class="search-filters">
+        <div class="container">
+            <div class="filter-box">
+                <h3>What are you looking for at the library?</h3>
+                <form th:action="@{/book/search/1}" method="get" >
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group ui-widget">
+                            <label class="sr-only">Search by Keyword</label>
+                            <input class="form-control" placeholder="Search by Keyword" id="keywords" name="s"
+                                type="text">
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <select name="category" id="catalog" class="form-control">
+                                <option>All Categories</option>
+                                <th:block th:each="contact, iterStar : ${categories.pageList}">
+                                    <option th:text="${contact.name}"></option>
+                                </th:block>
+                                
+                                
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <select name="category" id="category" class="form-control">
+                                <option>All Categories</option>
+                                <option>Category 01</option>
+                                <option>Category 02</option>
+                                <option>Category 03</option>
+                                <option>Category 04</option>
+                                <option>Category 05</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <div class="col-md-2 col-sm-6">
+                        <div class="form-group">
+                            <input class="form-control" type="submit" value="Search"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- End: Search Section -->
+    <nav th:fragment="menubook">
+        <!-- Start: Category Filter -->
+        <section class="category-filter section-padding">
+            <div class="container">
+                <div class="center-content">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <h2 class="section-title">Check Out The New Releases</h2>
+                            <span class="underline center"></span>
+                            <p class="lead">The standard chunk of Lorem Ipsum used since the 1500s is reproduced below
+                                for
+                                those interested.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-buttons">
+                    <div class="filter btn" data-filter="all">All Releases</div>
+                    <th:block th:each="contact, iterStar : ${categories.pageList}">
+                        <div class="filter btn" th:data-filter="|.${contact.id}|" th:text="${contact.name}">
+                        </div>
+                    </th:block>
+                    
+                    <!-- <div class="filter btn" data-filter=".adults">Adults</div>
+                    <div class="filter btn" data-filter=".kids-teens">Kids &amp; Teens</div>
+                    <div class="filter btn" data-filter=".video">Video</div>
+                    <div class="filter btn" data-filter=".audio">Audio</div>
+                    <div class="filter btn" data-filter=".books">Books</div>
+                    <div class="filter btn" data-filter=".magazines">Magazines</div> -->
+
+
+                </div>
+            </div>
+
+            <th:block th:if="${#lists.isEmpty(books.pageList)}" class="col-md-6 col-md-offset-3">
+					<br>
+					<br>
+					<br>
+					<br>
+					<h1>No book</h1>
+            </th:block>
+            <th:block th:unless="${#lists.isEmpty(books.pageList)}">
+                <div id="category-filter">
+                    <ul class="category-list">
+                        <th:block  th:each="contactB,iterStat : ${books.pageList}">                     
+                            <li th:class="'category-item ' + |${contactB.getCategoriesToString()}|">
+                                <figure>
+                                    <!-- <img th:src="@{'/img/bookscover/'+${contactB.picture}}" th:if="${contactB.picture != null}"
+                                        style="width: 355px; height: 266px;" alt="New Releaase" /> -->
+                                        <img th:src="@{|/bookImage?bookId=${contactB.id}|}" style="max-width: 100%; height: 395px;" accept="image/*"  th:if="${contactB.picture != null}" />
+                                        <img th:src="@{/images/lol1.gif}" th:if="${contactB.picture == null}"
+                                        style="max-width: 100%; height: 266px;" />
+                                    <!-- <img th:src="*{'data:image/jpg;base64,'+ book.getPicture()}" alt="#" /> -->
+
+                                    <figcaption class="bg-orange">
+                                        <div class="info-block">
+                                            <h4><span th:text="${contactB.title}" th:title="${contactB.title}"></span></h4>
+                                            <span class="author"><strong>Author:</strong> <span th:text="${contactB.authors}"
+                                                    th:title="${contactB.authors}"></span></span>
+                                            <span class="author"><strong>Price:</strong><span th:text="' $'+${contactB.price}"
+                                                    th:title="${contactB.price}"></span> </span>
+                                            <div class="rating">
+                                                <span>☆</span>
+                                                <span>☆</span>
+                                                <span>☆</span>
+                                                <span>☆</span>
+                                                <span>☆</span>
+                                            </div>
+                                            <p><span id="limit" th:text="${contactB.description}"
+                                                    th:title="${contactB.description}"></span></p>
+
+                                            <a th:href="@{/bookview/infor/{id}(id=${contactB.id})}">Read More <i
+                                                    class="fa fa-long-arrow-right"></i></a>
+                                            <ol>
+                                                <span th:if="${ok == 'TRUE'} or ${contactB.ok == 1}">
+                                                    <li>
+                                                    
+                                                        <a th:href="@{/bookview/editform/{id}(id=${contactB.id})}"><i
+                                                                class="fa fa-edit"></i></a>
+                                                    </li>
+                                                    <li >
+                                                        <a th:href="@{/book/{id}/delete(id=${contactB.id})}"><i
+                                                                class="fa fa-trash"></i></a>   
+                                                    </li>
+                                                </span>
+                                                <li>
+                                                    <a th:href="@{|/buyBook?bookId=${contactB.id}|}">
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-heart"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-envelope"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="fa fa-share-alt"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/bookview/infor/{id}(id=${contactB.id})}">
+                                                        <i class="fa fa-search"></i>
+                                                    </a>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </th:block>
+                        
+                        <!-- <li class="category-item kids-teens">
+                            <figure>
+                                <img src="/images/category-filter/home-v1/category-filter-img-08.jpg" alt="New Releaase" />
+                                <figcaption class="bg-orange">
+                                    <div class="info-block">
+                                        <h4>The Great Gatsby</h4>
+                                        <span class="author"><strong>Author:</strong> F. Scott Fitzgerald</span>
+                                        <span class="author"><strong>ISBN:</strong> 9781581573268</span>
+                                        <div class="rating">
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                        </div>
+                                        <p>It is a long established fact that a reader will be distracted by the readable
+                                            content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar
+                                            varius.</p>
+                                        <a href="#">Read More <i class="fa fa-long-arrow-right"></i></a>
+                                        <ol>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-heart"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-envelope"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-share-alt"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-search"></i>
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </li> -->
+                    </ul>
+                    <div class="center-content">
+                        <a href="#" class="btn btn-primary">View More</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </th:block>
+        </section>
+        <!-- Start: Category Filter -->
+    </nav>
+
+    <!-- end of content right -->
+    <div class="cleaner_with_height"></div>
+    <!-- end of content -->
+    <footer th:replace="footer :: ${footer}"></footer>
+</body>
+
+<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js">
+	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+	var a = $("#limit").text();
+	console.log('A ne =====>' + a)
+	//substr(1, 2) + "...";
+	document.getElementById("limit").innerHTML = b;
+
+
+</script> -->
+<!-- jQuery Latest Version 1.x -->
+<script type="text/javascript" th:src="@{/js/jquery-1.12.4.min.js}"></script>
+
+<!-- jQuery UI -->
+<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+<!-- jQuery Easing -->
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Mobile Menu -->
+<script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+<!-- Harvey - State manager for media queries -->
+<script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+<!-- Waypoints - Load Elements on View -->
+<script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+<!-- Facts Counter -->
+<script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+<!-- MixItUp - Category Filter -->
+<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+<!-- Owl Carousel -->
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+<!-- Accordion -->
+<script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+<!-- Responsive Tabs -->
+<script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+<!-- Responsive Table -->
+<script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+<!-- Masonry -->
+<script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+<!-- Carousel Swipe -->
+<script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+<!-- bxSlider -->
+<script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" th:src="@{/js/search.js}"> </script>
+
+</html>

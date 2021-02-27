@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>SHOPPING CART</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+	<!-- Favicon -->
+	<link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+	<!-- Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+		rel="stylesheet" />
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+
+	<!-- Mobile Menu -->
+	<link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+	<!-- Stylesheet -->
+	<!-- Accordion Stylesheet -->
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+    <!-- Responsive Table -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/responsivetable.css}" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+
+       
+        .hoverQuantity:hover{
+          background-color: orange;
+        }
+    </style>
+    
+</head>
+
+<body>
+
+	<nav th:replace="header :: ${header}"></nav>
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>Cart Page</h2>
+				<span class="underline center"></span>
+
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li>My Cart</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
+	<!-- Start: Cart Section -->
+    <div id="content" class="site-content">
+        <div id="primary" class="content-area">
+            <main id="main" class="site-main">
+                <div class="cart-main">
+                    <div class="container">
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="page type-page status-publish hentry">
+                                    <div class="entry-content">
+                                        <div class="woocommerce table-tabs" id="responsiveTabs">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><b class="arrow-up"></b><a data-toggle="tab" href="#sectionA">Book Bag</a></li>
+                                                <li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionB">Holds (4)</a></li>
+                                                <li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionC">My Checkouts (0)</a></li>
+                                                <li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionD">My eBooks (1)</a></li>
+                                                <li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionE">My Lists</a></li>
+                                                <li><b class="arrow-up"></b><a data-toggle="tab" href="#sectionF">Fines/Fees ($0.00)</a></li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div id="sectionA" class="tab-pane fade in active">
+                                                    <th:block th:if="${cartForm == null || cartForm.cartLines == null || cartForm.cartLines.empty}">
+                                                        <div class="row">
+                                                            <div align="center">
+                                                                <h2 style="color:black">There is no items in Cart</h2>
+                                                            </br>
+                                                    </th:block>
+                                                    <th:block th:if="${cartForm != null && cartForm.cartLines != null && !cartForm.cartLines.empty}">
+                                                        <form method="POST" th:object="${cartForm}" th:action="@{/shoppingCart}">
+                                                            <table class="table table-bordered shop_table cart">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="product-name"> <input type="checkbox" onclick="selectAllCheckboxes(this,'inputId')" id="inputIdOne" styleClass="classIdOne"/></th>
+                                                                        <th class="product-name">Title</th>
+                                                                        <th class="product-quantity">Quantity</th>
+                                                                        <th class="product-name">Action </th>                                                                
+                                                                        <th class="product-subtotal">&nbsp;</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr class="cart_item" th:each="cartLineInfo, varStatus : ${cartForm.cartLines}">
+                                                                        <td data-title="cbox" class="product-cbox">
+                                                                            <span>
+                                                                                <input type="checkbox" id="inputId" onclick="checkOne(this,'inputIdOne')"  class="classCheckBox" th:name="|cartLines[${varStatus.index}].bookInfo.bookId|"                       
+                                                                                th:value="${cartLineInfo.bookInfo.bookId}">
+                                                                            </span>
+                                                                        </td>
+                                                                        <td data-title="Product" class="product-name">
+                                                                            <span class="product-thumbnail">
+                                                                         
+                                                                                <a href="#"><img th:src="@{|/bookImage?bookId=${cartLineInfo.bookInfo.bookId}|}" width=100 height=111 alt="cart-product-1"></a>
+                                                                            </span>
+                                                                            <span class="product-detail" >
+                                                                                <a><strong th:utext="${cartLineInfo.bookInfo.title}"></strong></a>
+                                                                                <span><strong th:utext="'Code: '+${cartLineInfo.bookInfo.bookId}"></strong><input type="hidden"      
+                                                                                    th:name="|cartLines[${varStatus.index}].bookInfo.bookId|"                       
+                                                                                    th:value="${cartLineInfo.bookInfo.bookId}" /></span>
+                                                                                <span><strong th:utext="'Author: '+${cartLineInfo.bookInfo.author}"></strong></span>
+                                                                                <span><strong th:utext="'Price: $'+ ${#numbers.formatDecimal(cartLineInfo.bookInfo.price,3,2,'COMMA')}"></strong> <em ></em></span>
+                                                                               
+                                                                                <span><strong >Subtotal:<em th:utext="' $'+ ${#numbers.formatDecimal(cartLineInfo.amount,3,2,'COMMA')}"></em></strong></span>
+                                                                            </span>
+                                                                        </td>
+                                                                        <td data-title="Price" class="product-action" align="center" style="width:50px;">
+                                  
+                                                                                <input type="number"  class="form-control input-number"   th:name="|cartLines[${varStatus.index}].quantity|"
+                                                                                th:value="${cartLineInfo.quantity}"/>
+                                                                                <div class="hoverQuantity">
+                                                                                    <input type="submit" class="btn btn-default"   value="Update Quantity"/>
+                                                                                </div>
+                                                                              
+
+                                                                        </td>
+                                                                        <td data-title="action"  class="product-action" width=180>
+                                                                            <!-- <p><a href="#">Available </a> at 53rd Street Fiction (CLASSICS FIC MORRISON) plus 4 more <a href="#"> see all </a></p> -->
+
+                                                                            <div class="dropdown" >
+                                                                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Edit Hold<b class="caret"></b></a>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <!-- <li> <a><input type="submit" value="Update Quantity"/></a></li> -->
+                                                                                    <li><a th:href="@{/checkout}" onclick="checkOut();">CHECKOUT</a></li>
+                                                                                    <li><a th:href="@{/book}">CONTINUE BUY</a></li>
+                                                                                </ul>
+                                                                            </div>
+                                                                            <!-- <div class="addition-action" align="middle">
+                                                                                <small>Additional Actions:</small>
+                                                                                <ul>
+                                                                                    <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                                                                    <li><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a></li>
+                                                                                    <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                                                                                    <li><a href="#"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                                                                                    <li><a href="#"><i class="fa fa-print" aria-hidden="true"></i></a></li>
+                                                                                </ul>
+                                                                            </div> -->
+                                                                        </td>
+                                                                        <td class="product-remove">
+                                                                            <a th:href="@{|/shoppingCartRemoveBook?bookId=${cartLineInfo.BookInfo.bookId}|}">
+                                                                                <span>Remove</span>
+                                                                                </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </form>
+                                                    </th:block>
+                                                </div>
+                                                <div align="center">
+                                                    <a th:href="@{/checkout}" class="btn btn-default">Checkout</a>
+                                                </div>
+                                                
+                                                <div id="sectionB" class="tab-pane fade in">
+                                                    <h5>Lorem Ipsum Dolor</h5>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                                </div>
+                                                <div id="sectionC" class="tab-pane fade in">
+                                                    <h5>Lorem Ipsum Dolor</h5>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                                </div>
+                                                <div id="sectionD" class="tab-pane fade in">
+                                                    <h5>Lorem Ipsum Dolor</h5>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                                </div>                                                    
+                                                <div id="sectionE" class="tab-pane fade in">
+                                                    <h5>Lorem Ipsum Dolor</h5>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                                </div>                                                    
+                                                <div id="sectionF" class="tab-pane fade in">
+                                                    <h5>Lorem Ipsum Dolor</h5>
+                                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .entry-content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- End: Cart Section -->
+
+
+	
+
+	<footer th:replace="footer :: ${footer}"></footer>
+
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+
+<!-- jQuery Latest Version 1.x -->
+<script type="text/javascript"  th:src="@{/js/jquery-1.12.4.min.js}"></script>
+        
+<!-- jQuery UI -->
+<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+<!-- jQuery Easing -->
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Mobile Menu -->
+<script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+<!-- Harvey - State manager for media queries -->
+<script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+<!-- Waypoints - Load Elements on View -->
+<script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+<!-- Facts Counter -->
+<script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+<!-- MixItUp - Category Filter -->
+<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+<!-- Owl Carousel -->
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+<!-- Accordion -->
+<script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+<!-- Responsive Tabs -->
+<script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+<!-- Responsive Table -->
+<script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+<!-- Masonry -->
+<script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+<!-- Carousel Swipe -->
+<script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+<!-- bxSlider -->
+<script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+<script>
+    function selectAllCheckboxes(obj, InputID) {
+        var inputCheckBox = document.getElementsByTagName("input");
+        for (var i = 0; i < inputCheckBox.length; i++) {
+            if (inputCheckBox[i].id.indexOf(InputID) != -1) {
+                inputCheckBox[i].checked = obj.checked;
+            }
+        }
+    }
+
+    function checkOne(obj, inputIdOne) {
+
+        var inputCheckBox = document.querySelector('[id$="inputIdOne"]')
+        var inputCheckBoxSmall = document.getElementsByClassName("classCheckBox");
+        var result = true;
+        for (var i = 0; i < inputCheckBoxSmall.length; i++) {
+            if (inputCheckBoxSmall[i].checked == false) {
+                result = false;
+                break;
+            }
+        }
+        inputCheckBox.checked = result;
+    }
+
+    
+</script>
+
+</html>

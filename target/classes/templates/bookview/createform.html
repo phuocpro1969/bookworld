@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<title>SELL BOOK</title>
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" /> -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.js"></script> -->
+
+	<!-- Favicon -->
+	<link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+	<!-- Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+		rel="stylesheet" />
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+
+	<!-- Mobile Menu -->
+	<link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+	<!-- Stylesheet -->
+	<!-- Accordion Stylesheet -->
+	<link th:href="@{/css/jquery.accordion.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		/* content */
+		fieldset.scheduler-border {
+			border: 2px groove rgb(165, 163, 163) !important;
+			width: 75%;
+			border-radius: 8px;
+
+			padding: 0 1.4em 1.4em 1.4em !important;
+			-webkit-box-shadow: 4px 4px 0px 0px rgb(165, 163, 163);
+			box-shadow: 5px 5px 0px 0px rgb(165, 163, 163);
+		}
+
+		legend.scheduler-border {
+			font-size: 2.5em !important;
+			opacity: 0.5;
+			font-weight: bold !important;
+			text-align: left !important;
+		}
+
+		.button {
+
+			/* Green */
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+		}
+
+
+
+		/* end of content */
+	</style>
+</head>
+
+<body>
+	<nav th:replace="header :: ${header}"></nav>
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>Sell Book</h2>
+				<span class="underline center"></span>
+				<p class="lead">Proin ac eros pellentesque dolor pharetra tempo.</p>
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<li>SellBook</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
+
+	<!-- Start: Products Section -->
+	<div id="content" class="site-content">
+		<div id="primary" class="content-area">
+			<main id="main" class="site-main">
+				<div class="booksmedia-detail-main">
+					<div class="container">
+						<div class="row">
+							<!-- Start: Search Section -->
+							<section class="search-filters">
+								<div class="container">
+									<div class="filter-box">
+										<h3>Sell Book</h3>
+									</div>
+								</div>
+							</section>
+							<!-- End: Search Section -->
+						</div>
+						<div class="row">
+							<div class="col-md-9 col-md-push-3">
+								<div class="booksmedia-detail-box">
+									<div class="container">
+										<form onsubmit="return validateForm()" id="createform"
+											th:action="@{/bookview/createform}" th:object="${dto}" method="post"
+											enctype="multipart/form-data">
+											<fieldset class="scheduler-border">
+												<legend class="scheduler-border">
+													<center>Book Information</center>
+												</legend>
+												<br>
+												<div class="form-group">
+													<label for="title" class="control-label">Title</label>
+													<input id="title" name="title" class="form-control"
+														style="border-color: #6e6a6a; height:45px;" type="text"
+														th:value="${dto.title}">
+												</div>
+
+												<div class="form-group">
+													<label for="price" class="control-label">Price</label>
+													<input id="price" name="price" class="form-control"
+														style="border-color: #6e6a6a; height:45px;" type="text"
+														th:value="${dto.price}">
+												</div>
+
+												<div class="form-group">
+													<label for="domain" class="control-label">Domain</label>
+													<input id="domain" name="domain" class="form-control"
+														style="border-color: #6e6a6a; height:45px;" type="text"
+														th:value="${dto.domain}">
+												</div>
+
+												<div class="form-group">
+													<label for="pictureFile" class="control-label">Book's
+														Cover</label>
+													<input id="pictureFile" name="pictureFile" class="form-control" th:field="*{pictureFile}"
+														onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"
+														accept=".jpeg, .jpg, .png, .gif, .tif, .tiff, .psd, .pdf, .eps, .ai, .indd, .raw, .bmp, .cr2, .nef, .orf, .sr2, .xcf, .cdr"
+														style="border-color: #6e6a6a; height:45px; font-weight: bold;"
+														type="file">
+													<img id="output" src="" width="150" height="150">
+												</div>
+
+												<div class="form-group">
+													<label for="authors" class="control-label">Authors</label>
+													<input id="authors" name="authors" class="form-control"
+														style="border-color: #6e6a6a; height:45px;" type="text"
+														th:value="${dto.authors}">
+												</div>
+
+
+												<div class="form-group">
+													<label for="publishers" class="control-label">Publishers</label>
+													<div style="height:45px;">
+														<select id="publishers" name="publishers"
+															th:field="${dto.publisherId}">
+															<option value="" disabled selected>Please select</option>
+															<option th:each="publisher : ${dto.publishers}"
+																th:text="${publisher.publisher}"
+																th:value="${publisher.id}"></option>
+														</select>
+													</div>
+												</div>
+
+
+												<div class="form-group">
+													<label for="publishedYear" class="control-label">Published
+														Year</label>
+													<input id="publishedYear" name="publishedYear" class="form-control"
+														style="border-color: #6e6a6a; height:45px;" type="text"
+														th:value="${dto.publishedYear}">
+												</div>
+
+
+												<div class="form-group">
+													<label class="control-label">Upload
+														Book's File</label>
+													<div class="col-8">
+														<label><input type="checkbox" class="radio" value="1"
+																name="upload" checked />Upload Multiple
+															Files &emsp; </label> <label><input type="checkbox"
+																class="radio" value="1" name="upload" id="dir" />Upload
+															A Directory</label>
+														<!-- Script for checkboxs to determine how user want to upload -->
+														<script th:inline="javascript">
+															/*<![CDATA[*/
+															$(document).ready(function () {
+																$("input[name=upload]").on('click', function () {
+																	var $box = $(this);
+																	if ($box.is(":checked")) {
+																		var group = "input:checkbox[name='" + $box.attr("name") + "']";
+																		$(group).prop("checked", false);
+																		$box.prop("checked", true);
+																	}
+																	else {
+																		$box.prop("checked", false);
+																	}
+																	var checkBox = document.getElementById("dir");
+																	if (checkBox.checked == true) {
+																		$('#files').replaceWith('<input class="form-control" type="file" webkitdirectory mozdirectory name="files" id="files"/>');
+																	}
+																	else {
+																		$('#files').replaceWith('<input class="form-control" type="file" name="files" id="files" th:field = "${dto.files}" multiple="multiple">');
+																	}
+																});
+															});
+							/*]]>*/
+														</script>
+														<input id="files" name="files" class="form-control" type="file"
+															th:field="${dto.files}"
+															style="border-color: #6e6a6a; height:45px; font-weight: bold;"
+															multiple="multiple" />
+
+														<!-- Script for upload a directory -->
+														<script th:inline="javascript">
+															/*<![CDATA[*/
+															$(document).ready(function () {
+																var iptEls = document.querySelectorAll('input');
+																[].forEach.call(inps, function (iptEl) {
+																	iptEl.onchange = function (e) {
+																		console.log(this.files);
+																	};
+																});
+															});
+							/*]]>*/
+														</script>
+													</div>
+												</div>
+												<div class="form-group">
+
+													<label class="control-label">Categories</label>
+													<div class="col-8">
+														<button type="button" class="btn btn-warning dropdown-toggle"
+															data-toggle="dropdown" style=" border-radius: 5px;">
+															Please select<span class="glyphicon glyphicon-cog"></span>
+														</button>
+														<div>
+															<ul class="dropdown-menu" id="categories" th:if="${#lists.isEmpty(dto.categories)}">
+																<li>No Category</li>
+															</ul>
+														</div>
+
+														<ul class="dropdown-menu" id="categories"
+															th:if="${not #lists.isEmpty(dto.categories)}">
+															<li th:each="category : ${dto.categories}"><a
+																th:href="@{bookview/createform}" class="small"
+																data-value="category" tabIndex="-1"><input type="checkbox"
+																	th:text="${category.name}" th:name="idChecked"
+																	th:value="${category.id}" />&nbsp;</a></li>
+														</ul>
+														<!-- Script for drop down checkbox -->
+														<script th:inline="javascript" >
+															/*<![CDATA[*/
+															$(document).ready(function () {
+																var options = [];
+																$('.dropdown-menu a').on('click', function (event) {
+																	var $target = $(event.currentTarget),
+																		val = $target.attr('data-value'),
+																		$inp = $target.find('input'),
+																		idx;
+																	if ((idx = options.indexOf(val)) > -1) {
+																		options.splice(idx, 1);
+																		setTimeout(function () { $inp.prop('checked', false) }, 0);
+																	}
+																	else {
+																		options.push(val);
+																		setTimeout(function () { $inp.prop('checked', true) }, 0);
+																	}
+																	$(event.target).blur();
+																	console.log(options);
+																	return false;
+																});
+															});
+																/*]]>*/
+														</script>
+														<br>
+													</div>
+												</div>
+		
+				<div class="form-group">
+					<label for="description" class="control-label">Description</label>
+					<textarea id="description" name="description" class="form-control" placeholder="Write description for this book"
+						style="border-color: #6e6a6a;" th:value="${dto.description}"></textarea>
+				</div>
+
+				<div class="submit">
+					<center>
+						<button class="btn btn-success" type="submit" style="border-radius: 5px; background-color:#f0ad4e; border: none;" id="submit">Submit
+							</button>
+					</center>
+				</div>
+			</fieldset>
+			
+			<!-- Script for alert missing important fields -->
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+				$(document).ready(function () {
+					validateForm = function () {
+						var m = document.getElementById("title");
+						if (m == "") {
+							alert("Please set in Title field");
+							return false;
+						}
+
+						var x = document.getElementById("files").files.length;
+						if (x == 0) {
+							alert("You did not upload any files of your book");
+							return false;
+						}
+						var publisher = $('#publishers');
+						if (publisher.val() === '') {
+							if (!confirm("Do you want to post this book without specifying what your book's publisher is?")) {
+								return false;
+							}
+						}
+						if ($("#categories input:checkbox:checked").length == 0) {
+							if (!confirm("Do you want to post this book without specifying what your book's categories are?")) {
+								return false;
+							}
+						}
+
+
+
+						var p = document.getElementById("price");
+						if (p == "") {
+							alert("Please set 0 or other number in Price field");
+							return false;
+						}
+						var y = document.getElementById("publishedYear");
+						if (y == "") {
+							alert("Please set 0 or other number in Publisher Year field");
+							return false;
+						}
+					}
+				});
+			    /*]]>*/
+			</script>
+			<!-- Script for input validation -->
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+				$(document).ready(function () {
+					$("#createform").validate({
+						rules: {
+							title: "required",
+							price: {
+								digits: true
+							},
+							publishedYear: {
+								digits: true
+							}
+						},
+						messages: {
+							title: "Please fill in this field",
+							price: "Please fill this field with number only",
+							publishedYear: "Please fill this field with digits only",
+						}
+					});
+
+				});
+		        /*]]>*/
+			</script>
+		</form>
+	</div>
+							</br>
+								<div class="booksmedia-fullwidth booksmedia-popular-list">
+									<h2 class="section-title text-center">Popular Items</h2>
+									<span class="underline center"></span>
+									<p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+									<ul class="popular-items-detail-v1">
+										<li>
+											<div class="book-list-icon blue-icon"></div>
+											<figure>
+												<img src="/images/books-media/layout-3/books-media-layout3-01.jpg" alt="Book">
+												<figcaption>
+													<header>
+														<h4><a href="#.">The Great Gatsby</a></h4>
+														<p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+														<p><strong>ISBN:</strong>  9781581573268</p>
+													</header>
+													<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+													<div class="actions">
+														<ul>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+																	<i class="fa fa-shopping-cart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+																	<i class="fa fa-heart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+																	<i class="fa fa-search"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-print"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-share-alt"></i>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</figcaption>
+											</figure>                                                
+										</li>
+										<li>
+											<div class="book-list-icon yellow-icon"></div>
+											<figure>
+												<img src="/images/books-media/layout-3/books-media-layout3-02.jpg" alt="Book">
+												<figcaption>
+													<header>
+														<h4><a href="#.">The Great Gatsby</a></h4>
+														<p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+														<p><strong>ISBN:</strong>  9781581573268</p>
+													</header>
+													<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+													<div class="actions">
+														<ul>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+																	<i class="fa fa-shopping-cart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+																	<i class="fa fa-heart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+																	<i class="fa fa-search"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-print"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-share-alt"></i>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</figcaption>
+											</figure>                                                
+										</li>
+										<li>
+											<div class="book-list-icon green-icon"></div>
+											<figure>
+												<img src="/images/books-media/layout-3/books-media-layout3-03.jpg" alt="Book">
+												<figcaption>
+													<header>
+														<h4><a href="#.">The Great Gatsby</a></h4>
+														<p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+														<p><strong>ISBN:</strong>  9781581573268</p>
+													</header>
+													<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+													<div class="actions">
+														<ul>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+																	<i class="fa fa-shopping-cart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+																	<i class="fa fa-heart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+																	<i class="fa fa-search"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-print"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-share-alt"></i>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</figcaption>
+											</figure>                                                
+										</li>
+										<li>
+											<div class="book-list-icon blue-icon"></div>
+											<figure>
+												<img src="/images/books-media/layout-3/books-media-layout3-01.jpg" alt="Book">
+												<figcaption>
+													<header>
+														<h4><a href="#.">The Great Gatsby</a></h4>
+														<p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+														<p><strong>ISBN:</strong>  9781581573268</p>
+													</header>
+													<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+													<div class="actions">
+														<ul>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+																	<i class="fa fa-shopping-cart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+																	<i class="fa fa-heart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+																	<i class="fa fa-search"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-print"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-share-alt"></i>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</figcaption>
+											</figure>                                                
+										</li>
+										<li>
+											<div class="book-list-icon yellow-icon"></div>
+											<figure>
+												<img src="/images/books-media/layout-3/books-media-layout3-02.jpg" alt="Book">
+												<figcaption>
+													<header>
+														<h4><a href="#.">The Great Gatsby</a></h4>
+														<p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+														<p><strong>ISBN:</strong>  9781581573268</p>
+													</header>
+													<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+													<div class="actions">
+														<ul>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+																	<i class="fa fa-shopping-cart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+																	<i class="fa fa-heart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+																	<i class="fa fa-search"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-print"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-share-alt"></i>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</figcaption>
+											</figure>                                                
+										</li>
+										<li>
+											<div class="book-list-icon green-icon"></div>
+											<figure>
+												<img src="/images/books-media/layout-3/books-media-layout3-03.jpg" alt="Book">
+												<figcaption>
+													<header>
+														<h4><a href="#.">The Great Gatsby</a></h4>
+														<p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+														<p><strong>ISBN:</strong>  9781581573268</p>
+													</header>
+													<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+													<div class="actions">
+														<ul>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+																	<i class="fa fa-shopping-cart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+																	<i class="fa fa-heart"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+																	<i class="fa fa-search"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-print"></i>
+																</a>
+															</li>
+															<li>
+																<a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+																	<i class="fa fa-share-alt"></i>
+																</a>
+															</li>
+														</ul>
+													</div>
+												</figcaption>
+											</figure>                                                
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-md-pull-9">
+							<aside id="secondary" class="sidebar widget-area" data-accordion-group>
+								<div class="widget widget_related_search open" data-accordion>
+									<h4 class="widget-title" data-control>Related Searches</h4>
+									<div data-content>
+										<div data-accordion>
+											<h5 class="widget-sub-title" data-control><a th:href="@{/publishersList}">All Publishers</a></h5>
+											<div class="widget_categories" data-content th:each="contact,iterStat : ${publishers.pageList}">
+												<ul>
+													<li><a th:href="@{|/search/1?s=${contact.publisher}|}" th:text="${contact.publisher} + ' ' + '(' + ${#lists.size(contact.books)} + ')'"></a></li>
+												</ul>
+											</div>
+										</div>
+										<div data-accordion>
+											<h5 class="widget-sub-title" data-control><a th:href="@{/categoryList}">All Categories</a></h5>
+											<div class="widget_categories" data-content th:each="contact,iterStat : ${categories.pageList}">
+												<ul>
+													<li><a th:href="@{|/search/1?s=${contact.name}|}" th:text="${contact.name} + ' ' + '(' + ${#lists.size(contact.books)} + ')'"></a></li>
+												</ul>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+										<div data-accordion >
+											<h5 class="widget-sub-title" data-control onclick="alert('Đang trong quá trình nâng cấp')">Series</h5>
+											<div class="widget_categories" data-content >
+												<ul>
+													<!-- <li><a href="#">Love stories <span>(18)</span></a></li> -->
+													
+												</ul>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+										<!-- <div data-accordion>
+											<h5 class="widget-sub-title" data-control>Other Searches</h5>
+											<div class="widget_categories" data-content>
+												<ul>
+													<li><a href="#">Love stories <span>(18)</span></a></li>
+													<li><a href="#">Texas <span>(04)</span></a></li>
+													<li><a href="#">Rich people <span>(03)</span></a></li>
+													<li><a href="#">Humorous stories <span>(02)</span></a></li>
+													<li><a href="#">Widows <span>(02)</span></a></li>
+													<li><a href="#">Women <span>(11)</span></a></li>
+													<li><a href="#">Babysitters <span>(25)</span></a></li>
+													<li><a href="#">Law firms <span>(09)</span></a></li>
+												</ul>
+											</div>
+											<div class="clearfix"></div>
+										</div> -->
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="widget widget_narrow_search" data-accordion>
+									<h4 class="widget-title" data-control>Narrow your search</h4>
+									<div data-content>
+										<div data-accordion>
+											<h5 class="widget-sub-title" data-control>Type of Material</h5>
+											<div class="widget_material" data-content>
+												<form action="#">
+													<label><input type="checkbox" name="material" value="books"> Books</label>
+													<label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+													<label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+													<label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+													<label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+													<label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+												</form>
+											</div>
+										</div>
+										<div data-accordion>
+											<h5 class="widget-sub-title" data-control>Publishing Date </h5>
+											<div class="widget widget_material" data-content>
+												<form action="#">
+													<label><input type="checkbox" name="material" value="books"> Books</label>
+													<label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+													<label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+													<label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+													<label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+													<label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+												</form>
+												<div class="clearfix"></div>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+										<div data-accordion>
+											<h5 class="widget-sub-title" data-control>Popularity </h5>
+											<div class="widget widget_material" data-content>
+												<form action="#">
+													<label><input type="checkbox" name="material" value="books"> Books</label>
+													<label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+													<label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+													<label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+													<label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+													<label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+												</form>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+										<div data-accordion>
+											<h5 class="widget-sub-title" data-control>Language </h5>
+											<div class="widget widget_material" data-content>
+												<form action="#">
+													<label><input type="checkbox" name="material" value="books"> Books</label>
+													<label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+													<label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+													<label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+													<label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+													<label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+												</form>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="widget widget_recent_releases">
+									<h4 class="widget-title">New Releases</h4>
+									<ul>
+										<li><a href="#">Books</a></li>
+										<li><a href="#">eBooks</a></li>
+										<li><a href="#">DVDS</a></li>
+										<li><a href="#">Magazines</a></li>
+										<li><a href="#">Audio</a></li>
+										<li><a href="#">eAudio</a></li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="widget widget_recent_entries">
+									<h4 class="widget-title">On-Order Items</h4>
+									<ul>
+										<li>
+											<figure>
+												<img src="/images/order-item-01.jpg" alt="product" />
+											</figure>
+											<a href="#">The Sonic Boom</a>
+											<span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+											<span><strong>ISBN:</strong> 978158157</span>
+											<div class="rating">
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+											</div>
+											<div class="clearfix"></div>
+										</li>
+										<li>
+											<figure>
+												<img src="/images/order-item-02.jpg" alt="product" />
+											</figure>
+											<a href="#">The Sonic Boom</a>
+											<span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+											<span><strong>ISBN:</strong> 978158157</span>
+											<div class="rating">
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+											</div>
+											<div class="clearfix"></div>
+										</li>
+										<li>
+											<figure>
+												<img src="/images/order-item-03.jpg" alt="product" />
+											</figure>
+											<a href="#">The Sonic Boom</a>
+											<span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+											<span><strong>ISBN:</strong> 978158157</span>
+											<div class="rating">
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+												<span>☆</span>
+											</div>
+											<div class="clearfix"></div>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+							</aside>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</div>
+<!-- End: Products Section -->
+	</div>
+	<div class="cleaner_with_height"></div>
+	<footer th:replace="footer :: ${footer}"></footer>
+</body>
+
+<!-- jQuery Latest Version 1.x -->
+<script type="text/javascript"  th:src="@{/js/jquery-1.12.4.min.js}"></script>
+        
+<!-- jQuery UI -->
+<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+<!-- jQuery Easing -->
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Mobile Menu -->
+<script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+<!-- Harvey - State manager for media queries -->
+<script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+<!-- Waypoints - Load Elements on View -->
+<script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+<!-- Facts Counter -->
+<script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+<!-- MixItUp - Category Filter -->
+<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+<!-- Owl Carousel -->
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+<!-- Accordion -->
+<script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+<!-- Responsive Tabs -->
+<script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+<!-- Responsive Table -->
+<script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+<!-- Masonry -->
+<script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+<!-- Carousel Swipe -->
+<script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+<!-- bxSlider -->
+<script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+
+</html>

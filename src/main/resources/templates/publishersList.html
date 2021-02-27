@@ -1,0 +1,778 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>LIST PUBLISHERS</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+	<!-- Favicon -->
+	<link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+	<!-- Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+		rel="stylesheet" />
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+
+	<!-- Mobile Menu -->
+	<link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+	<!-- Stylesheet -->
+	<!-- Accordion Stylesheet -->
+	<link th:href="@{/css/jquery.accordion.css}" rel="stylesheet" type="text/css">
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style>
+		tr {
+			font-weight: bold;
+			background-color: #EEEEEE;
+
+		}
+
+		span:hover {
+			color: rgba(255, 0, 0, 0.2);
+			position: relative;
+		}
+
+		tr:hover {
+			background-color: #b4adab;
+		}
+	</style>
+</head>
+
+<body>
+	<nav th:replace="header :: ${header}"></nav>
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>LIST PUBLISHERS</h2>
+				<span class="underline center"></span>
+
+			</div>
+			<div class="breadcrumb">
+				<ul>
+					<li><a th:href="@{/}">Home</a></li>
+					<!-- <li><a th:href="@{/categoryList}">List Publishers</a></li> -->
+					<li>List Publishers</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- End: Page Banner -->
+
+	<!-- Start: Products Section -->
+	<div id="content" class="site-content">
+		<div id="primary" class="content-area">
+			<main id="main" class="site-main">
+				<div class="booksmedia-detail-main">
+					<div class="container">
+						<div class="row">
+							<!-- Start: Search Section -->
+							<section class="search-filters">
+
+							</section>
+							<!-- End: Search Section -->
+						</div>
+						<div class="row">
+							<div class="col-md-9 col-md-push-3">
+								<div class="booksmedia-detail-box">
+									<div class="container">
+
+										<div th:if="${success}">
+											<span
+												style="color: #e47343; font-size: 20px; padding: 0px 0px 0px 20px"
+												th:text="${success}"></span>
+										</div>
+										</br>
+										<div class="row">
+											<a th:href="@{/publisher/add}"
+												style="font-size: 12pt; background-color: #e47343; color: white; padding: 5px 20px 5px 20px; border-radius: 5px;">ADD
+												PUBLISHER</a>
+										</div>
+
+										<div class="row">
+											<form class="searchUser" th:action="@{/publishersList/search/1}" method="get">
+												<div class="col-sm-4">
+
+												</div>
+
+												<div class="col-sm-4">
+													<input autocomplete="on" type="text" class="form-control" name="s" id="key"
+														placeholder="publisher name" style="border-color: #b4adab; height:40px;"/>
+												</div>
+												
+												<div class="col-sm-4">
+													<button type="submit" class="btn btn-primary" style="border-radius: 5px; background-color:hsla(0, 100%, 50%, 0.3);">
+														<img th:src="@{/images/icon_search.png}" style="width: 20px; height: 20px;"></img>
+													</button>
+												</div>
+                                        	</form>
+										</div>
+										</br>
+										</br>
+										<div class="row">
+											<div>
+                                                <th:block th:if="${#lists.isEmpty(publishersL.pageList)}">
+													<div class="table">
+														<h3 style="text-align: center;">No Publisher</h3>
+													</div>
+												</th:block>
+												<h3 th:text="'Amount: ' + ${#lists.size(publishersL.pageList)}"></h3>
+										
+												<table class="table" align="left" style="width: 75%;">
+													<thead>
+														<tr style="font-size: 15px;">
+															<th>ID</th>
+															<th>PUBLISHINGHOUSE</th>
+															<th>CREATEDID</th>
+															<th>CREATEDDATE</th>
+															<th>UPLOADID</th>
+															<th>UPDATEDATE</th>
+															<th>Edit</th>
+															<th>Delete</th>
+														</tr>
+													</thead>
+													<tbody id="content-publisher">
+														<tr th:each="publisher:${publishersL.pageList}">
+															<td><span th:text="${publisher.id}"
+																	th:title="${publisher.id}">ID</span></td>
+															<td><span th:text="${publisher.publisher}"
+																	th:title="${publisher.publisher}">Publisher</span>
+															</td>
+															<td><span th:text="${publisher.createId}"
+																	th:title="${publisher.createId}">CreateId</span>
+															</td>
+															<td><span th:text="${publisher.createDate}"
+																	th:title="${publisher.createDate}">CrateDate</span>
+															</td>
+															<td><span th:text="${publisher.updateId}"
+																	th:title="${publisher.updateId}">UploadId</span>
+															</td>
+															<td><span th:text="${publisher.updateDate}"
+																	th:title="${publisher.updateDate}">UploadDate</span>
+															</td>
+															<td><a th:href="@{/publisher/{id}/edit(id=${publisher.id})}"
+																	class=""><i class="fa fa-edit"></i></a></td>
+															<td><a th:href="@{|/publisher/${publisher.id}/delete|}"
+																	class=""><i class="fa fa-trash"></i></a></td>
+													</tbody>
+												</table>
+
+												<div class="row">
+													<div class="col-sm-4">
+														
+													</div>
+													<div class="col-sm-8" style="margin: 0px 0px 0px -85px;">
+														<ul class="pagination" >
+															<li
+																th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'">
+																<a class="page-link" th:href="@{|${baseUrl}1|}">First</a>
+															</li>
+															<li
+																th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+																<a class="page-link" aria-label="Previous"
+																	th:href="@{|${baseUrl}${currentIndex - 1}|}"
+																	title='Go to previous page'><span
+																		aria-hidden="true">«</span>
+																	<span class="sr-only"></span></a>
+															</li>
+															<li th:each="item : ${#numbers.sequence(beginIndex, endIndex)}"
+															th:class="${item == currentIndex ? 'page-item active' :'page-item' }">
+															<a class="page-link" th:href="@{|${baseUrl}${item}|}"> <span
+																th:text='${item}'>1</span>
+														</a>
+														</li>
+														<li
+															th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'">
+															<a class="page-link" aria-label="Next"
+															th:href="@{|${baseUrl}${currentIndex + 1}|}"
+															title='Go to next page'><span aria-hidden="true">»</span> <span
+																class="sr-only"></span></a>
+														</li>
+														<li
+															th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'">
+															<a class="page-link" th:href="@{|${baseUrl}${totalPageCount}|}">Last</a>
+														</li>
+													</ul>
+													</div>
+												
+							
+													
+												</div>
+
+												
+                                        </div>
+                                        
+                                        
+                                            
+                                        <div class="cleaner_with_height"></div>
+                                    </div>
+                                </div>
+								</br>
+								</br>
+								</br>
+								</br>
+								</br>
+				
+                                <div class="booksmedia-fullwidth booksmedia-popular-list">
+                                <h2 class="section-title text-center">Popular Items</h2>
+                                <span class="underline center"></span>
+                                <p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                <ul class="popular-items-detail-v1">
+                                    <li>
+                                        <div class="book-list-icon blue-icon"></div>
+                                        <figure>
+                                            <img src="/images/books-media/layout-3/books-media-layout3-01.jpg" alt="Book">
+                                            <figcaption>
+                                                <header>
+                                                    <h4><a href="#.">The Great Gatsby</a></h4>
+                                                    <p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+                                                    <p><strong>ISBN:</strong>  9781581573268</p>
+                                                </header>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-print"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-share-alt"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </figcaption>
+                                        </figure>                                                
+                                    </li>
+                                    <li>
+                                        <div class="book-list-icon yellow-icon"></div>
+                                        <figure>
+                                            <img src="/images/books-media/layout-3/books-media-layout3-02.jpg" alt="Book">
+                                            <figcaption>
+                                                <header>
+                                                    <h4><a href="#.">The Great Gatsby</a></h4>
+                                                    <p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+                                                    <p><strong>ISBN:</strong>  9781581573268</p>
+                                                </header>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-print"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-share-alt"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </figcaption>
+                                        </figure>                                                
+                                    </li>
+                                    <li>
+                                        <div class="book-list-icon green-icon"></div>
+                                        <figure>
+                                            <img src="/images/books-media/layout-3/books-media-layout3-03.jpg" alt="Book">
+                                            <figcaption>
+                                                <header>
+                                                    <h4><a href="#.">The Great Gatsby</a></h4>
+                                                    <p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+                                                    <p><strong>ISBN:</strong>  9781581573268</p>
+                                                </header>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-print"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-share-alt"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </figcaption>
+                                        </figure>                                                
+                                    </li>
+                                    <li>
+                                        <div class="book-list-icon blue-icon"></div>
+                                        <figure>
+                                            <img src="/images/books-media/layout-3/books-media-layout3-01.jpg" alt="Book">
+                                            <figcaption>
+                                                <header>
+                                                    <h4><a href="#.">The Great Gatsby</a></h4>
+                                                    <p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+                                                    <p><strong>ISBN:</strong>  9781581573268</p>
+                                                </header>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-print"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-share-alt"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </figcaption>
+                                        </figure>                                                
+                                    </li>
+                                    <li>
+                                        <div class="book-list-icon yellow-icon"></div>
+                                        <figure>
+                                            <img src="/images/books-media/layout-3/books-media-layout3-02.jpg" alt="Book">
+                                            <figcaption>
+                                                <header>
+                                                    <h4><a href="#.">The Great Gatsby</a></h4>
+                                                    <p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+                                                    <p><strong>ISBN:</strong>  9781581573268</p>
+                                                </header>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-print"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-share-alt"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </figcaption>
+                                        </figure>                                                
+                                    </li>
+                                    <li>
+                                        <div class="book-list-icon green-icon"></div>
+                                        <figure>
+                                            <img src="/images/books-media/layout-3/books-media-layout3-03.jpg" alt="Book">
+                                            <figcaption>
+                                                <header>
+                                                    <h4><a href="#.">The Great Gatsby</a></h4>
+                                                    <p><strong>Author:</strong>  F. Scott Fitzgerald</p>
+                                                    <p><strong>ISBN:</strong>  9781581573268</p>
+                                                </header>
+                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. Pellentesque dolor turpis, pulvinar varius.</p>
+                                                <div class="actions">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Add To Cart">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Mail"><i class="fa fa-envelope"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Search">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-print"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Print">
+                                                                <i class="fa fa-share-alt"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </figcaption>
+                                        </figure>                                                
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-pull-9">
+                        <aside id="secondary" class="sidebar widget-area" data-accordion-group>
+                            <div class="widget widget_related_search open" data-accordion>
+                                <h4 class="widget-title" data-control>Related Searches</h4>
+                                <div data-content>
+                                    <div data-accordion>
+                                        <h5 class="widget-sub-title" data-control><a th:href="@{/publishersList}">All Publishers</a></h5>
+                                        <div class="widget_categories" data-content th:each="contact,iterStat : ${publishers.pageList}">
+                                            <ul>
+                                                <li><a th:href="@{|/search/1?s=${contact.publisher}|}" th:text="${contact.publisher} + ' ' + '(' + ${#lists.size(contact.books)} + ')'"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div data-accordion>
+                                        <h5 class="widget-sub-title" data-control><a th:href="@{/categoryList}">All Categories</a></h5>
+                                        <div class="widget_categories" data-content th:each="contact,iterStat : ${categories.pageList}">
+                                            <ul>
+                                                <li><a th:href="@{|/search/1?s=${contact.name}|}" th:text="${contact.name} + ' ' + '(' + ${#lists.size(contact.books)} + ')'"></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div data-accordion >
+                                        <h5 class="widget-sub-title" data-control onclick="alert('Đang trong quá trình nâng cấp')">Series</h5>
+                                        <div class="widget_categories" data-content >
+                                            <ul>
+                                                <!-- <li><a href="#">Love stories <span>(18)</span></a></li> -->
+                                                
+                                            </ul>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <!-- <div data-accordion>
+                                        <h5 class="widget-sub-title" data-control>Other Searches</h5>
+                                        <div class="widget_categories" data-content>
+                                            <ul>
+                                                <li><a href="#">Love stories <span>(18)</span></a></li>
+                                                <li><a href="#">Texas <span>(04)</span></a></li>
+                                                <li><a href="#">Rich people <span>(03)</span></a></li>
+                                                <li><a href="#">Humorous stories <span>(02)</span></a></li>
+                                                <li><a href="#">Widows <span>(02)</span></a></li>
+                                                <li><a href="#">Women <span>(11)</span></a></li>
+                                                <li><a href="#">Babysitters <span>(25)</span></a></li>
+                                                <li><a href="#">Law firms <span>(09)</span></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div> -->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="widget widget_narrow_search" data-accordion>
+                                <h4 class="widget-title" data-control>Narrow your search</h4>
+                                <div data-content>
+                                    <div data-accordion>
+                                        <h5 class="widget-sub-title" data-control>Type of Material</h5>
+                                        <div class="widget_material" data-content>
+                                            <form action="#">
+                                                <label><input type="checkbox" name="material" value="books"> Books</label>
+                                                <label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+                                                <label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+                                                <label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+                                                <label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+                                                <label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div data-accordion>
+                                        <h5 class="widget-sub-title" data-control>Publishing Date </h5>
+                                        <div class="widget widget_material" data-content>
+                                            <form action="#">
+                                                <label><input type="checkbox" name="material" value="books"> Books</label>
+                                                <label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+                                                <label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+                                                <label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+                                                <label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+                                                <label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+                                            </form>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div data-accordion>
+                                        <h5 class="widget-sub-title" data-control>Popularity </h5>
+                                        <div class="widget widget_material" data-content>
+                                            <form action="#">
+                                                <label><input type="checkbox" name="material" value="books"> Books</label>
+                                                <label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+                                                <label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+                                                <label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+                                                <label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+                                                <label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+                                            </form>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div data-accordion>
+                                        <h5 class="widget-sub-title" data-control>Language </h5>
+                                        <div class="widget widget_material" data-content>
+                                            <form action="#">
+                                                <label><input type="checkbox" name="material" value="books"> Books</label>
+                                                <label><input type="checkbox" name="material" value="electronic" checked> Electronic Resources</label>
+                                                <label><input type="checkbox" name="material" value="ebooks"> ebooks</label>
+                                                <label><input type="checkbox" name="material" value="soundrecording" checked> Sound Recording</label>
+                                                <label><input type="checkbox" name="material" value="largeprint"> Large Print</label>
+                                                <label><input type="checkbox" name="material" value="audioebooks" checked> Audio eBooks</label>
+                                            </form>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="widget widget_recent_releases">
+                                <h4 class="widget-title">New Releases</h4>
+                                <ul>
+                                    <li><a href="#">Books</a></li>
+                                    <li><a href="#">eBooks</a></li>
+                                    <li><a href="#">DVDS</a></li>
+                                    <li><a href="#">Magazines</a></li>
+                                    <li><a href="#">Audio</a></li>
+                                    <li><a href="#">eAudio</a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="widget widget_recent_entries">
+                                <h4 class="widget-title">On-Order Items</h4>
+                                <ul>
+                                    <li>
+                                        <figure>
+                                            <img src="/images/order-item-01.jpg" alt="product" />
+                                        </figure>
+                                        <a href="#">The Sonic Boom</a>
+                                        <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+                                        <span><strong>ISBN:</strong> 978158157</span>
+                                        <div class="rating">
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                    <li>
+                                        <figure>
+                                            <img src="/images/order-item-02.jpg" alt="product" />
+                                        </figure>
+                                        <a href="#">The Sonic Boom</a>
+                                        <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+                                        <span><strong>ISBN:</strong> 978158157</span>
+                                        <div class="rating">
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                    <li>
+                                        <figure>
+                                            <img src="/images/order-item-03.jpg" alt="product" />
+                                        </figure>
+                                        <a href="#">The Sonic Boom</a>
+                                        <span class="price"><strong>Author:</strong> F. Scott Fitzgerald</span>
+                                        <span><strong>ISBN:</strong> 978158157</span>
+                                        <div class="rating">
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                            <span>☆</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</div>
+<!-- End: Products Section -->
+	
+
+
+
+	<footer th:replace="footer :: ${footer}"></footer>
+</body>
+
+<!-- jQuery Latest Version 1.x -->
+<script type="text/javascript"  th:src="@{/js/jquery-1.12.4.min.js}"></script>
+        
+<!-- jQuery UI -->
+<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+<!-- jQuery Easing -->
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Mobile Menu -->
+<script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+<!-- Harvey - State manager for media queries -->
+<script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+<!-- Waypoints - Load Elements on View -->
+<script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+<!-- Facts Counter -->
+<script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+<!-- MixItUp - Category Filter -->
+<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+<!-- Owl Carousel -->
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+<!-- Accordion -->
+<script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+<!-- Responsive Tabs -->
+<script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+<!-- Responsive Table -->
+<script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+<!-- Masonry -->
+<script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+<!-- Carousel Swipe -->
+<script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+<!-- bxSlider -->
+<script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+<script>
+	/// Search thông tin
+	$(document).ready(function () {
+		$("#key").on("keyup", function () {
+			var value = $(this).val().toLowerCase();
+			$("#content-publisher tr").filter(function () {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+			});
+		});
+	});
+</script>
+
+</html>

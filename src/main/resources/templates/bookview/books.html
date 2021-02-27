@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>General Information</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>General Information</h1>
+				<div>Welcome you, our new friend. Sign in or sign up to join us</div>
+				<hr>				
+			</div>
+			
+			<div class="col-md-12">
+		<h2>All Books</h2>
+		<div style="margin-top:20px;">
+			<table class="table table-striped table-bordered" style="width:100%">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Price</th>
+						<th>Domain</th>
+						<th>Book's Cover</th>
+						<th>Authors</th>
+						<th>Publisher</th>
+						<th>Year</th>
+						<th>Categories</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="book : ${books}">
+						<td th:text="${book.currentBook.title}"></td>
+						<td th:text="${book.currentBook.price}"></td>
+						<td th:text="${book.currentBook.domain}"></td>
+						<td>
+							<div>
+								<span>
+									<img src="@{'/images/bookscover/defaultbookpicture.png'}" style="width:80px; height:80px; border-radius:50%; margin-left:10px;" class="image" th:if="${book.picture==null}">
+									<img src="@{'/images/bookscover/'+${book.picture}}" style="width:80px; height:80px; border-radius:50%; margin-left:10px;" class="image" th:if="${book.picture!=null}">
+								</span>
+							</div>
+						<td th:text="${book.currentBook.authors}"></td>
+						<td th:text="${book.currentBook.publisher}"></td>
+						<td th:text="${book.currentBook.year}"></td>
+						<td th:text="${book.stringCategories}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+			
+		</div>
+	</div>
+	
+	
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</body>
+</html>

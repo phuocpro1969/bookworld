@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!--   <head>
+    <meta charset="UTF-8" />
+    <title>Publisher List</title>
+
+  </head> -->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<title>Publisher</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
+
+<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/css/listbook.css}" rel="stylesheet" type="text/css" />
+<style type="text/css">
+span{
+	white-space: nowrap;
+}
+
+span:hover {
+    color: red;
+    position: relative;
+}
+</style>
+</head>
+
+<body>
+
+	<nav th:replace="indexheader :: ${header}"></nav>
+	<div id="templatemo_container">
+		<div id="templatemo_content">
+
+			<div id="templatemo_content_left">
+				<nav th:replace="indexheader :: templatemo_content_left_sec"></nav>
+			</div>
+			<div id="templatemo_content_right">
+				<h1 style="font-size: 20px; font-weight: bold;">LIST PUBLISHING HOUSE</h1>
+				<div class="gom">
+					<a th:href="@{/publisher/add}" style="font-size: 14pt; margin: -20px 0px 0px 20px; float: left">Add Publisher</a>
+				</div>
+				<div style="margin: -26px 0px 0px 0px;">
+					<table class="table" align="center">
+						<thead>
+							<tr style="font-size: 10px;">
+								<th>ID</th>
+								<th>PUBLISHINGHOUSE</th>
+								<th>CREATEDID</th>
+								<th>CREATEDDATE</th>
+								<th>UPLOADID</th>
+								<th>UPDATEDATE</th>
+								<th>Edit</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody style="background: #C6C9C4">
+							<tr th:each="publisher:${publishersL.pageList}">
+								<td><span th:text="${publisher.id}" th:title="${publisher.id}">ID</span></td>
+								<td><span th:text="${publisher.publisher}" th:title="${publisher.publisher}">Publisher</span></td>
+								<td><span th:text="${publisher.createId}" th:title="${publisher.createId}">CreateId</span></td>
+								<td><span th:text="${publisher.createDate}"th:title="${publisher.createDate}">CrateDate</span></td>
+								<td><span th:text="${publisher.updateId}"th:title="${publisher.updateId}">UploadId</span></td>
+								<td><span th:text="${publisher.updateDate}"th:title="${publisher.updateDate}">UploadDate</span></td>
+								<td><a
+									th:href="@{/publisher/{id}/edit(id=${publisher.id})}"
+									class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+								<td><a th:href="@{|/publisher/${publisher.id}/delete|}" class="btn btn-primary"><i
+										class="fas fa-user-times ml-2"></i></a></td>
+								<p id="demo"></p>
+						</tbody>
+					</table>
+
+					<ul class="pagination" style="margin-top: 10px;">
+						<li
+							th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'">
+							<a class="page-link" th:href="@{|${baseUrl}1|}">First</a>
+						</li>
+						<li
+							th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+							<a class="page-link" aria-label="Previous"
+							th:href="@{|${baseUrl}${currentIndex - 1}|}"
+							title='Go to previous page'><span aria-hidden="true">«</span>
+								<span class="sr-only"></span></a>
+						</li>
+						<li th:each="item : ${#numbers.sequence(beginIndex, endIndex)}"
+							th:class="${item == currentIndex ? 'page-item active' :'page-item' }">
+							<a class="page-link" th:href="@{|${baseUrl}${item}|}"> <span
+								th:text='${item}'>1</span>
+						</a>
+						</li>
+						<li
+							th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'">
+							<a class="page-link" aria-label="Next"
+							th:href="@{|${baseUrl}${currentIndex + 1}|}"
+							title='Go to next page'><span aria-hidden="true">»</span> <span
+								class="sr-only"></span></a>
+						</li>
+						<li
+							th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'">
+							<a class="page-link" th:href="@{|${baseUrl}${totalPageCount}|}">Last</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- end of content right -->
+			<div class="cleaner_with_height">&nbsp;</div>
+		</div>
+		<!-- end of content -->
+	</div>
+	<div class="cleaner_with_height">&nbsp;</div>
+	<footer th:replace="indexheader :: ${footer}"></footer>
+</body>
+</html>

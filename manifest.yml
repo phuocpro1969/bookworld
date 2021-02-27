@@ -1,0 +1,10 @@
+applications:
+  - name: bookstore
+    memory: 768M
+    instances: 1
+    path: target\bookstore-0.0.1-SNAPSHOT.war
+    random-route: true
+    services:
+      - mysql
+    buildpacks:
+      - https://github.com/cloudfoundry/java-buildpack.git

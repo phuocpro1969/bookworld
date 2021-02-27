@@ -1,0 +1,180 @@
+* {
+	font-family: Verdana; /* Change your font family */
+}
+
+.content-table {
+	height: 100px;
+	width: 700px;
+	margin: 0 auto;
+	color: black;
+	border-collapse: collapse;
+	background-color: #C6C9C4;
+	color: black;
+	font-size: 13.5px;
+	overflow: hidden;
+}
+
+.content-table a {
+	text-align: center;
+	color: #FD560F;
+}
+
+.content-table thead tr th {
+	color: red;
+	text-align: center;
+	font-weight: bold;
+	padding: 10px 10px 10px 15px;
+	border: 2px solid white;
+}
+
+.content-table tbody tr td {
+	color: black;
+	max-width: 56px;
+	font-weight: bold;
+	padding: 10px 10px 10px 15px;
+	border: 2px solid white;
+}
+
+.content-table tbody tr td span {
+	text-align: left;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.content-table tbody tr {
+	border: 2px solid white;
+}
+
+.content-table tbody tr:last-of-type {
+	border: 2px solid white;
+}
+
+.content-table tbody tr.active-row {
+	font-weight: bold;
+	color: #009879;
+}
+
+.searchbar {
+	padding: 10px 10px 20px 0px;
+	float: right;
+}
+
+.searchbar::placeholder {
+	color: white;
+	font-family: "Segoe UI Light", "Segoe UI", "Segoe", Tahoma, Helvetica,
+		Arial, sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+	/* transition: 0.2s; */
+}
+
+.searchbar:focus {
+	width: 400px;
+	font-family: "Segoe UI Light", "Segoe UI", "Segoe", Tahoma, Helvetica,
+		Arial, sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+	transition: 0.3s;
+	/* Stops the input box from inheriting the styling from the inputs on the request form */
+	border-bottom: white solid 2px;
+	outline: none;
+}
+
+.btn-search {
+	cursor: pointer;
+	color: black;
+	text-decoration: none !important;
+	font-family: "Segoe UI Light", "Segoe UI", "Segoe", Tahoma, Helvetica,
+		Arial, sans-serif;
+	font-size: 1.5em;
+	padding-top: 5px;
+	margin-right: 40px;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.form-group {
+	margin: 20px 0px 5px 100px;
+	height: 30px;
+	font-size: 13px bold;
+}
+
+.form-inline {
+	display: flex;
+}
+
+.form-inline .btn-primary {
+	height: 23px;
+	margin: 20px 0px 0px 0px;
+}
+
+.pagination ul li {
+	margin: 20px 10px 0px 0px;
+	font-size: 12pt;
+}
+
+.menu ul {
+	
+}
+
+.menu {
+	margin: 95px 0px 0px 0px;
+}
+
+.menu .product {
+	float: left;
+	border: 1px solid #333;
+	width: 45%;
+	height: 47%;
+	margin: 0px 10px 10px 25px;
+	display: flex;
+}
+
+.menu .images {
+	height: 85%;
+	width: 45%;
+	margin: 10px 0px 0px 0px;
+}
+
+.menu .images img {
+	width: 100% !important;
+	height: 100% !important;
+	max-width: 145px;
+	max-height: 115px;
+}
+
+.menu .content {
+	margin: 0px 0px 0px 15px;
+	width: 165px;
+}
+
+.menu ul li {
+	font-weight: bold;
+	font-size: 11pt;
+	width: 160px;
+	display: block;
+}
+
+.menu ul li span {
+	max-width: 85px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 0px 0px -3px 0px;
+	max-height: 40px !important;
+	position: unset ;
+	display: inline-block;
+}
+
+.form-group .font {
+	height: 20px;
+	font-size: 10pt;
+}
+
+.form-group input{
+
+}

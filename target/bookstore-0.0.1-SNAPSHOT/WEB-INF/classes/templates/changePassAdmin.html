@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
+	type="text/css" />
+<title>Change Password</title>
+</head>
+<body>
+
+	<div th:if="${param.success}">
+		<script type="text/javascript">
+			window.location.href = "/accountAdmin";
+		</script>
+	</div>
+
+	<nav th:replace="indexheader :: ${header}"></nav>
+
+	<div id="templatemo_container">
+		<div class="container">
+			<div class="regis">
+				<div class="text-center">
+					<h1 class="text-center" style="margin: 0px 0px 0px 250px;">Change
+						Password</h1>
+					<br> <br>
+					<div class="text-center">
+						<form th:action="@{/accountAdmin/changePassAdmin}"
+							th:object="${person2}" method="post"
+							style="margin: 0px 0px 0px 25px">
+
+							<input type="hidden" id="userName" name="userName"
+								th:value="${person2.userName}">
+
+							<p class="error-message" th:if="${#fields.hasGlobalErrors()}"
+								th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+								error</p>
+
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
+								<div class="input-group">
+									<span class="input-group-addon" style="width: 167px;"> <i
+										class="glyphicon glyphicon-lock"></i>Password
+									</span> <input style="width: 540px;" id="password"
+										class="form-control" placeholder="password" type="password"
+										th:field="*{password}" />
+								</div>
+								<p class="error-message"
+									th:each="error: ${#fields.errors('password')}"
+									th:text="${error}">Validation error</p>
+							</div>
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
+								<div class="input-group">
+									<span class="input-group-addon"> <i
+										class="glyphicon glyphicon-lock"></i>Confirm Password
+									</span> <input style="width: 540px;" id="confirmPassword"
+										class="form-control" placeholder="Confirm password"
+										type="password" th:field="*{confirmPassword}" />
+								</div>
+								<p class="error-message"
+									th:each="error: ${#fields.errors('confirmPassword')}"
+									th:text="${error}">Validation error</p>
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-block btn-success"
+									style="width: 135px; margin: 0px 0px 0px 275px;">Reset
+									password</button>
+							</div>
+							<br>
+							<br>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="indexheader :: ${footer}"></footer>
+
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

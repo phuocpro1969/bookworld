@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>VIEW ORDER</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+	<!-- Favicon -->
+	<link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+	<!-- Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+		rel="stylesheet" />
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+
+	<!-- Mobile Menu -->
+	<link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+	<!-- Stylesheet -->
+	<!-- Accordion Stylesheet -->
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+    <!-- Responsive Table -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/responsivetable.css}" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        tr:hover {
+			background-color: #b4adab;
+		}
+       
+    </style>
+    
+</head>
+
+<body>
+
+	<nav th:replace="header :: ${header}"></nav>
+	<!-- Start: Page Banner -->
+	<section class="page-banner services-banner">
+		<div class="container">
+			<div class="banner-header">
+				<h2>View Order</h2>
+				<span class="underline center"></span>
+
+			</div>
+			<div class="breadcrumb">
+				<ul>
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/orderList}">List Order</a></li>
+					<li>View Order</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+    <!-- End: Page Banner -->
+    
+    <!-- Start: Cart Checkout Section -->
+    <div id="content" class="site-content">
+        <div id="primary" class="content-area">
+            <main id="main" class="site-main">
+                <div class="checkout-main">
+                    <div class="container">
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <article class="page type-page status-publish hentry">
+                                    <div class="entry-content">
+                                        <div class="woocommerce">
+                                            <div class="row">
+                                                <div class="customer-info-container">
+                                                    <h3 style="font-size: 25px;">Customer Information:</h3>
+                                                    </br>
+                                                    <ul style="font-weight:bold; font-size: 20px; list-style-type:none;">
+                                                       <li>Name: <span th:utext="${orderInfo.customerName}"></span></li>
+                                                       <li>Email: <span th:utext="${orderInfo.customerEmail}"></span></li>
+                                                       <li>Phone: <span th:utext="${orderInfo.customerPhone}"></span></li>
+                                                       <li>Address: <span th:utext="${orderInfo.customerAddress}"></span></li>
+                                                    </ul>
+                                                    <h3 style="font-size: 25px;">Order Summary:</h3>
+                                                    </br>
+                                                    <ul style="font-weight:bold; font-size: 20px; list-style-type:none;">
+                                                       <li>Total:
+                                                          <span class="total" style="color:red;" th:utext="'$' + ${#numbers.formatDecimal(orderInfo.amount,3,2,'COMMA')}">         
+                                                          </span>
+                                                       </li>
+                                                    </ul>
+                                                 </div>
+                                                 <br/>
+                                                 <table style="width:100%" class="table">
+                                                    <tr>
+                                                       <th>Product Code</th>
+                                                       <th>Product Name</th>
+                                                       <th>Quantity</th>
+                                                       <th>Price</th>
+                                                       <th>Amount</th>
+                                                    </tr>
+                                                    <tr th:each="orderDetailInfo : ${orderInfo.details}">
+                                                       <td th:utext="${orderDetailInfo.bookId}"></td>
+                                                       <td th:utext="${orderDetailInfo.title}"></td>
+                                                       <td th:utext="${orderDetailInfo.quanity}"></td>
+                                                       <td th:utext="'$' + ${#numbers.formatDecimal(orderDetailInfo.price,3,2,'COMMA')}"></td>
+                                                       <td style="color:red;" th:utext="'$' + ${#numbers.formatDecimal(orderDetailInfo.amount,3,2,'COMMA')}"></td>
+                                                    </tr>
+                                                 </table>
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div><!-- .entry-content -->
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- End: Cart Checkout Section -->
+	
+    
+
+    
+    <!-- end of content right -->
+
+
+	
+
+	<footer th:replace="footer :: ${footer}"></footer>
+
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+
+<!-- jQuery Latest Version 1.x -->
+<script type="text/javascript"  th:src="@{/js/jquery-1.12.4.min.js}"></script>
+        
+<!-- jQuery UI -->
+<script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+<!-- jQuery Easing -->
+<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<!-- Mobile Menu -->
+<script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+<!-- Harvey - State manager for media queries -->
+<script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+<!-- Waypoints - Load Elements on View -->
+<script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+<!-- Facts Counter -->
+<script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+<!-- MixItUp - Category Filter -->
+<script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+<!-- Owl Carousel -->
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+<!-- Accordion -->
+<script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+<!-- Responsive Tabs -->
+<script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+<!-- Responsive Table -->
+<script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+<!-- Masonry -->
+<script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+<!-- Carousel Swipe -->
+<script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+<!-- bxSlider -->
+<script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+<!-- Custom Scripts -->
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+<script>
+
+  
+    
+</script>
+</html>

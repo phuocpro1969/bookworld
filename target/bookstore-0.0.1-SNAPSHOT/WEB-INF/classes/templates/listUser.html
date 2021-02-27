@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Book Store</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/css/listbook.css}" rel="stylesheet" type="text/css" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+tr {
+	font-weight: bold;
+	background-color: #C6C9C4;
+}
+span:hover {
+    color: red;
+    position: relative;
+}
+</style>
+<title>User's List</title>
+</head>
+<body>
+	<nav th:replace="indexheader :: ${header}"></nav>
+
+	<div id="templatemo_container">
+		<div id="templatemo_content">
+
+			<div id="templatemo_content_left">
+				<nav th:replace="indexheader :: templatemo_content_left_sec"></nav>
+			</div>
+			<!-- end of content left -->
+			<div id="templatemo_content_right">
+				<h1>List User</h1>
+				<div id="gom">
+					<a th:href="@{/listUser/adminAddUser}"
+						style="font-size: 14pt; margin: 10px 0px 10px 20px; float: left">Add
+						New User</a>
+					<form class="searchUser" th:action="@{/listUser/search/1}"
+						method="get">
+						<div class="form-group">
+							<input type="text" class="form-control" name="keyword" id="key"
+								style="margin: 0px 0px 5px -190px; padding: 0px 0px 0px 14px;"
+								placeholder="Type username, firstname lastname, id..." />
+							<button type="submit" class="btn btn-primary"
+								style="margin: -45px 0px 0px 77px; margin: -45px 10px 1px 130px;">
+								<img th:src="@{/images/icon_search.png}"
+									style="width: 30px; height: 30px;"></img>
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<th:block th:if="${#lists.isEmpty(list.pageList)}">
+					<div class="table">
+						<h1>No User Available</h1>
+					</div>
+				</th:block>
+
+				<th:block th:unless="${#lists.isEmpty(list.pageList)}">
+					<table class="table" align="center">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>USERNAME</th>
+								<th>FIRSTNAME</th>
+								<th>LASTNAME</th>
+								<th>POWER</th>
+								<th>UPDATE</th>
+								<th>DELETE</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="user : ${list.pageList}">
+								<td><span th:text="${user.id}" th:title="${user.id}">ID</span></td>
+								<td><span th:text="${user.username}"
+									th:title="${user.username}">USERNAME</span></td>
+								<td><span th:text="${user.firstname}"
+									th:title="${user.firstname}">FIRSTNAME</span></td>
+								<td><span th:text="${user.lastname}"
+									th:title="${user.lastname}">LASTNAME</span></td>
+								<td><span th:text="${user.power}" th:title="${user.power}">POWER</span></td>
+								<td><a th:href="@{'/listUser/edit-user-'+${user.id}}">UPDATE</a></td>
+								<td><a th:href="@{'/listUser/delete-user-'+${user.id}}">DELETE</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<ul class="pagination" style="margin: 10px 0px 0px 0px;">
+						<li
+							th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'">
+							<a class="page-link" th:href="@{|${baseUrl}1|}">First</a>
+						</li>
+						<li
+							th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+							<a class="page-link" aria-label="Previous"
+							th:href="@{|${baseUrl}${currentIndex - 1}|}"
+							title='Go to previous page'><span aria-hidden="true">«</span>
+								<span class="sr-only"></span></a>
+						</li>
+						<li th:each="item : ${#numbers.sequence(beginIndex, endIndex)}"
+							th:class="${item == currentIndex ? 'page-item active' :'page-item' }">
+							<a class="page-link" th:href="@{|${baseUrl}${item}|}"> <span
+								th:text='${item}'>1</span>
+						</a>
+						</li>
+						<li
+							th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'">
+							<a class="page-link" aria-label="Next"
+							th:href="@{|${baseUrl}${currentIndex + 1}|}"
+							title='Go to next page'><span aria-hidden="true">»</span> <span
+								class="sr-only"></span></a>
+						</li>
+						<li
+							th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'">
+							<a class="page-link" th:href="@{|${baseUrl}${totalPageCount}|}">Last</a>
+						</li>
+					</ul>
+				</th:block>
+			</div>
+			<div class="cleaner_with_height"></div>
+		</div>
+	</div>
+	<!-- end of content right -->
+	<footer th:replace="indexheader :: ${footer}"></footer>
+</body>
+</html>

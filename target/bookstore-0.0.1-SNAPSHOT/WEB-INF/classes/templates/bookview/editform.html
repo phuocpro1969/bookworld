@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title>BookShare_SharingInformation</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
+	type="text/css" />
+<style type="text/css">
+
+/* content */
+
+
+.col-3 {
+	position: unset;
+}
+
+.col-8 {
+	position: unset;
+	text-align: left;
+}
+
+input[type="text"] {
+	background-color: #DBD15E;
+}
+
+input[type="file"] {
+	background-color: #DBD15E;
+}
+
+fieldset.scheduler-border {
+	border: 1px groove #ddd !important;
+	padding: 0 1.4em 1.4em 1.4em !important;
+	margin: 0 0 1.5em 0 !important;
+	-webkit-box-shadow: 0px 0px 0px 0px #000;
+	box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+	font-size: 2.5em !important;
+	color: #27AE60;
+	font-weight: bold !important;
+	text-align: left !important;
+}
+
+.button {
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+/* end of content */
+</style>
+</head>
+<body>
+	<nav th:replace="indexheader :: ${header}"></nav>
+	<div id="templatemo_container">
+		<div class="container">
+			<!-- end of header -->
+			<form id="editform" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')"
+				th:action="@{/bookview/editform}" method="post" th:object="${dto}"
+				enctype="multipart/form-data">
+				<fieldset class="scheduler-border">
+					<legend class="scheduler-border">
+						<center>Book Information _ Edit</center>
+					</legend>
+					<br>
+					<div class="form-group row">
+						<div class="col-8">
+							<input id="id" name="id" class="form-control" type="hidden"
+								th:value="${id}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Title</font></label>
+						<div class="col-8">
+							<input id="title" name="title" class="form-control" type="text"
+								th:value="${dto.title}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Price</font></label>
+						<div class="col-8">
+							<input id="price" name="price" class="form-control" type="text"
+								th:value="${dto.price}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Domain</font></label>
+						<div class="col-8">
+							<input id="domain" name="domain" class="form-control" type="text"
+								th:value="${dto.domain}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Book's
+								Cover</font></label>
+						<div class="col-8">
+							<input id="pictureFile" name="pictureFile" class="form-control"
+								type="file"
+								accept=".jpeg, .jpg, .png, .gif, .tif, .tiff, .psd, .pdf, .eps, .ai, .indd, .raw, .bmp, .cr2, .nef, .orf, .sr2, .xcf, .cdr"
+								th:field="${dto.pictureFile}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Authors</font></label>
+						<div class="col-8">
+							<input id="authors" name="authors" class="form-control"
+								type="text" th:value="${dto.authors}">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Publishers</font></label>
+						<div class="col-8">
+							<select id="publishers" name="publishers"
+								class="btn btn-warning dropdown-toggle"
+								th:field="${dto.publisherId}">
+								<option value="" disabled selected>Please select</option>
+								<option th:each="publisher : ${dto.publishers}"
+									th:text="${publisher.publisher}" th:value="${publisher.id}"
+									th:selected="${currentSelected}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Published
+								Year</font></label>
+						<div class="col-8">
+							<input id="publishedYear" name="publishedYear"
+								class="form-control" type="text" th:value="${dto.publishedYear}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Upload
+								Book's File</font></label>
+						<div class="col-8">
+							<label><input type="checkbox" class="radio" value="1"
+								name="upload" checked />Upload Multiple Files &emsp; </label> <label><input
+								type="checkbox" class="radio" value="1" name="upload" id="dir" />Upload
+								A Directory</label>
+							<!-- Script for checkboxs to determine how user want to upload -->
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								$(document)
+										.ready(
+												function() {
+													$("input[name=upload]")
+															.on(
+																	'click',
+																	function() {
+																		var $box = $(this);
+																		if ($box
+																				.is(":checked")) {
+																			var group = "input:checkbox[name='"
+																					+ $box
+																							.attr("name")
+																					+ "']";
+																			$(
+																					group)
+																					.prop(
+																							"checked",
+																							false);
+																			$box
+																					.prop(
+																							"checked",
+																							true);
+																		} else {
+																			$box
+																					.prop(
+																							"checked",
+																							false);
+																		}
+																		var checkBox = document
+																				.getElementById("dir");
+																		if (checkBox.checked == true) {
+																			$(
+																					'#files')
+																					.replaceWith(
+																							'<input class="form-control" type="file" webkitdirectory mozdirectory name="files" id="files"/>');
+																		} else {
+																			$(
+																					'#files')
+																					.replaceWith(
+																							'<input class="form-control" type="file" name="files" id="files" th:field = "${dto.files}" multiple="multiple">');
+																		}
+																	});
+												});
+								/*]]>*/
+							</script>
+							<input id="files" name="files" class="form-control" type="file"
+								th:field="${dto.files}" multiple="multiple">
+							<!-- Script for upload a directory -->
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								$(document).ready(
+										function() {
+											var iptEls = document
+													.querySelectorAll('input');
+											[].forEach.call(inps, function(
+													iptEl) {
+												iptEl.onchange = function(e) {
+													console.log(this.files);
+												};
+											});
+										});
+								/*]]>*/
+							</script>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Categories</font></label>
+						<div class="col-8">
+							<button type="button" class="btn btn-warning dropdown-toggle"
+								data-toggle="dropdown" style="margin: 7px 0px -13px 0px;">
+								Please select<span class="glyphicon glyphicon-cog"></span> <span
+									class="caret"></span>
+							</button>
+							<div>
+								<ul class="dropdown-menu" id="selectCategories"
+									th:if="${#lists.isEmpty(dto.selectCategories)}">
+									<li>No Category</li>
+								</ul>
+							</div>
+							<div>
+								<ul class="dropdown-menu" id="selectCategories"
+									th:if="${not #lists.isEmpty(dto.selectCategories)}"
+									th:field="${dto.categories}">
+									<li th:each="selectCategory : ${dto.selectCategories}"><a
+										href="/bookview/editform" class="small"
+										data-value="selectCategory.category" tabIndex="-1"><input
+											th:checked="${selectCategory.flag==1}" type="checkbox"
+											th:text="${selectCategory.category.name}" th:name="idChecked"
+											th:value="${selectCategory.category.id}" />&nbsp;</a></li>
+								</ul>
+								<!-- Script for drop down checkbox -->
+								<script th:inline="javascript">
+									/*<![CDATA[*/
+									$(document)
+											.ready(
+													function() {
+														var options = [];
+														$('.dropdown-menu a')
+																.on(
+																		'click',
+																		function(
+																				event) {
+																			var $target = $(event.currentTarget), val = $target
+																					.attr('data-value'), $inp = $target
+																					.find('input'), idx;
+																			if ((idx = options
+																					.indexOf(val)) > -1) {
+																				options
+																						.splice(
+																								idx,
+																								1);
+																				setTimeout(
+																						function() {
+																							$inp
+																									.prop(
+																											'checked',
+																											false)
+																						},
+																						0);
+																			} else {
+																				options
+																						.push(val);
+																				setTimeout(
+																						function() {
+																							$inp
+																									.prop(
+																											'checked',
+																											true)
+																						},
+																						0);
+																			}
+																			$(
+																					event.target)
+																					.blur();
+																			console
+																					.log(options);
+																			return false;
+																		});
+													});
+									/*]]>*/
+								</script>
+								<br>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-3 col-form-label"><font size="4">Description</font></label>
+						<div class="col-8">
+							<textarea id="description" name="description"
+								class="form-control" th:value="${dto.description}"
+								th:text="${dto.description}"></textarea>
+						</div>
+					</div>
+				</fieldset>
+				<div class="submit">
+					<center>
+						<button class="btn btn-success" type="submit">Submit
+							&raquo;</button>
+					</center>
+				</div>
+				<!-- Script for checking input validation -->
+				<script th:inline="javascript">
+					/*<![CDATA[*/
+					$(document)
+							.ready(
+									function() {
+										$("#editform")
+												.validate(
+														{
+															rules : {
+																price : {
+																	digits : true
+																},
+																publishedYear : {
+																	digits : true
+																}
+															},
+															messages : {
+																price : "Please fill this field with digits only",
+																publishedYear : "Please fill this field with digits only",
+															}
+														});
+									});
+					/*]]>*/
+				</script>
+			</form>
+		</div>
+	</div>
+
+	<div class="cleaner_with_height"></div>
+	<footer th:replace="indexheader :: ${footer}"></footer>
+</body>
+</html>

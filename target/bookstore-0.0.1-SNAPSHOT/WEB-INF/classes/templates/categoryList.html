@@ -1,0 +1,164 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Category</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/css/listbook.css}" rel="stylesheet" type="text/css" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+span{
+	white-space: nowrap;
+}
+span:hover {
+    color: red;
+    position: relative;
+}
+</style>
+</head>
+
+<body>
+	<!-- span[title]:hover{
+	min-width: 200px;
+} -->
+	<nav th:replace="indexheader :: ${header}"></nav>
+	<div id="templatemo_container">
+		<div id="templatemo_content">
+
+			<div id="templatemo_content_left">
+				<nav th:replace="indexheader :: templatemo_content_left_sec"></nav>
+			</div>
+
+			<!-- end of content left -->
+			<div id="templatemo_content_right">
+				<h1>List Categories</h1>
+				<div th:if="${success}">
+					<span
+						style="color: #e6e154; font-size: 20px; padding: 0px 0px 0px 20px"
+						th:text="${success}"></span>
+				</div>
+				<div id="gom">
+					<a th:href="@{/category/add}"
+						style="font-size: 14pt; margin: 10px 0px 10px 20px; float: left">
+						Add Category</a>
+					<form class="searchUser" th:action="@{/categoryList/search/1}"
+						method="get">
+						<div class="form-group">
+							<input class="form-control" type="text" name="s"
+								style="margin: 0px 0px 5px -190px; padding: 0px 0px 0px 14px;"
+								placeholder="name"> </input>
+
+							<button class="btn btn-primary" type="submit"
+								style="margin: -45px 0px 0px 77px; margin: -45px 10px 1px 130px;">
+								<img th:src="@{/images/icon_search.png}"
+									style="width: 30px; height: 30px;"></img>
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<th:block th:if="${#lists.isEmpty(categoryL.pageList)}">
+					<div class="table">
+						<h3 style="text-align: center;">No Category</h3>
+					</div>
+				</th:block>
+
+				<th:block th:unless="${#lists.isEmpty(categoryL.pageList)}">
+					<table class="table" align="center">
+						<thead>
+							<tr style="font-size: 10px;">
+								<th>ID</th>
+								<th>CATEGORY</th>
+								<th>CREATEDID</th>
+								<th>CREATEDDATE</th>
+								<th>UPLOADID</th>
+								<th>UPDATEDATE</th>
+								<th>Edit</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody style="background: #C6C9C4">
+							<tr th:each="category:${categoryL.pageList}">
+								<td><span th:text="${category.id}"
+									th:title="${category.id}">ID</span></td>
+								<td><span th:text="${category.name}"
+									th:title="${category.name}" >Category</span></td>
+								<td><span th:text="${category.createId}"
+									th:title="${category.createId}">CreateId</span></td>
+								<td><span th:text="${category.createDate}"
+									th:title="${category.createDate}">CrateDate</span></td>
+								<td><span th:text="${category.updateId}"
+									th:title="${category.updateId}">UploadId</span></td>
+								<td><span th:text="${category.updateDate}"
+									th:title="${category.updateDate}">UploadDate</span></td>
+								<td><a
+									th:href="@{|/categoryList/edit/${category.id}|}"
+									class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+								<td><a th:href="@{|/categoryList/delete/${category.id}|}"
+									class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
+								<p id="demo"></p>
+						</tbody>
+					</table>
+					<ul class="pagination" style="margin: 10px 0px 0px 0px;">
+						<li
+							th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'">
+							<a class="page-link" th:href="@{/categorylist}">First</a>
+						</li>
+						<li
+							th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+							<a class="page-link" aria-label="Previous"
+							th:href="@{|${baseUrl}${currentIndex - 1}|}"
+							title='Go to previous page'><span aria-hidden="true">«</span>
+								<span class="sr-only"></span></a>
+						</li>
+						<li th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
+							th:class="${item == currentIndex ? 'page-item active' :'page-item' }">
+							<a class="page-link" th:href="@{|${baseUrl}${item}|}"> <span
+								th:text='${item}'>1</span>
+						</a>
+						</li>
+						<li
+							th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'">
+							<a class="page-link" aria-label="Next"
+							th:href="@{|${baseUrl}${currentIndex + 1}|}"
+							title='Go to next page'><span aria-hidden="true">»</span> <span
+								class="sr-only"></span></a>
+						</li>
+						<li
+							th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'">
+							<a class="page-link" th:href="@{|${baseUrl}${totalPageCount}|}">Last</a>
+						</li>
+					</ul>
+				</th:block>
+			</div>
+		</div>
+	</div>
+	<!-- end of content right -->
+	<div class="cleaner_with_height">&nbsp;</div>
+	</div>
+	<!-- end of content -->
+
+	<footer th:replace="indexheader :: ${footer}"></footer>
+</body>
+
+</html>

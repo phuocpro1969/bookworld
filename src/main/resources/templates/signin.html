@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Title -->
+    <title>LOGIN</title>
+
+    <!-- Favicon -->
+    <link th:href="@{/images/favicon.ico}" rel="icon" type="image/x-icon" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet" />
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+
+
+    <!-- Mobile Menu -->
+    <link th:href="@{/css/mmenu.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/mmenu.positioning.css}" rel="stylesheet" type="text/css" />
+
+    <!-- Stylesheet -->
+    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script th:src="@{/js/html5shiv.min.js}"></script>
+        <script th:src="@{/js/respond.min.js}"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <nav th:replace="header :: ${header}"></nav>
+    <!-- Start: Page Banner -->
+    <section class="page-banner services-banner">
+        <div class="container">
+            <div class="banner-header">
+                <h2>Signin</h2>
+                <span class="underline center"></span>
+                <p class="lead">Proin ac eros pellentesque dolor pharetra tempo.</p>
+            </div>
+            <div class="breadcrumb">
+                <ul>
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li>Signin</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- End: Page Banner -->
+    <!-- Start: Cart Section -->
+    <div id="content" class="site-content">
+        <div id="primary" class="content-area">
+            <main id="main" class="site-main">
+                <div class="signin-main">
+                    <div class="container">
+                        <div class="woocommerce">
+                            <div class="woocommerce-login">
+                                <div class="company-info signin-register">
+                                    <div class="col-md-5 col-md-offset-1 border-dark-left">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="company-detail bg-dark margin-left">
+                                                    <div class="signin-head">
+                                                        <h2>Sign in</h2>
+                                                        <span class="underline left"></span>
+                                                    </div>
+                                                    <form class="login" th:action="@{/login}" method="post">
+                                                        <p class="form-row form-row-first input-required">
+                                                            <input type="text" id="username" name="username" class="input-text" placeholder="Username">
+                                                        </p>
+                                                        <p class="form-row form-row-last input-required">
+                                                            <input type="password" id="password" name="password" class="input-text" placeholder="Password">
+                                                        </p>
+                                                        <div class="clear"></div>
+                                                        <div class="password-form-row">
+                                                            <p class="form-row input-checkbox">
+                                                                <input type="checkbox" value="forever" id="rememberme" name="rememberme">
+                                                                <label class="inline" for="rememberme">Remember me</label>
+                                                            </p>
+                                                            <p class="lost_password">
+                                                                <a th:href="@{/forgot-password}">Forgot Password?</a>
+                                                            </p>
+                                                        </div>
+                                                        <input type="submit" value="Login" name="login" class="button btn btn-default">
+                                                        <div class="clear"></div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 border-dark new-user">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="company-detail new-account bg-light margin-right">
+                                                    <div class="new-user-head">
+                                                        <h2>Create New Account</h2>
+                                                        <span class="underline left"></span>
+                                                        <p>If no barcode has been assigned for your account, please contact the library.</p>
+                                                    </div>
+                                                    <form class="login" method="post">
+
+                                                        <div class="clear"></div>
+
+                                                        <a th:href="@{registration}" class="button btn btn-default">Signup</a>
+                                                        <div class="clear"></div>
+                                                        <p class="form-row form-row-first input-required">
+                                                            <input type="text" id="username1" name="username" class="input-text" placeholder="" style="border: none;" readonly hidden>
+                                                        </p>
+                                                        <p class="form-row input-required">
+                                                            <input type="password" id="password1" name="password" class="input-text" placeholder="" style="border: none;" readonly hidden>
+                                                        </p>
+                                                        <!-- <input type="submit" value="Signup" name="signup" class="button btn btn-default">        -->
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- End: Cart Section -->
+
+    <footer th:replace="footer :: ${footer}"></footer>
+
+    <!-- jQuery Latest Version 1.x -->
+    <script type="text/javascript" th:src="@{/js/jquery-1.12.4.min.js}"></script>
+
+    <!-- jQuery UI -->
+    <script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+
+    <!-- jQuery Easing -->
+    <script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+    <!-- Mobile Menu -->
+    <script type="text/javascript" th:src="@{/js/mmenu.min.js}"></script>
+
+    <!-- Harvey - State manager for media queries -->
+    <script type="text/javascript" th:src="@{/js/harvey.min.js}"></script>
+
+    <!-- Waypoints - Load Elements on View -->
+    <script type="text/javascript" th:src="@{/js/waypoints.min.js}"></script>
+
+    <!-- Facts Counter -->
+    <script type="text/javascript" th:src="@{/js/facts.counter.min.js}"></script>
+
+    <!-- MixItUp - Category Filter -->
+    <script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+
+    <!-- Owl Carousel -->
+    <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+    <!-- Accordion -->
+    <script type="text/javascript" th:src="@{/js/accordion.min.js}"></script>
+
+    <!-- Responsive Tabs -->
+    <script type="text/javascript" th:src="@{/js/responsive.tabs.min.js}"></script>
+
+    <!-- Responsive Table -->
+    <script type="text/javascript" th:src="@{/js/responsive.table.min.js}"></script>
+
+    <!-- Masonry -->
+    <script type="text/javascript" th:src="@{/js/masonry.min.js}"></script>
+
+    <!-- Carousel Swipe -->
+    <script type="text/javascript" th:src="@{/js/carousel.swipe.min.js}"></script>
+
+    <!-- bxSlider -->
+    <script type="text/javascript" th:src="@{/js/bxslider.min.js}"></script>
+
+    <!-- Custom Scripts -->
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+</body>
+
+</html>

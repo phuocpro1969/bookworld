@@ -1,0 +1,61 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Book Store</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<link th:href="@{/css/templatemo_style.css}" rel="stylesheet"
+	type="text/css" />
+
+<link th:href="@{/css/listbook.css}" rel="stylesheet" type="text/css" />
+<style>
+.menu {
+	margin: 20px 0px 0px 0px;
+}
+
+}
+</style>
+</head>
+
+<body>
+	<nav th:replace="indexheader :: ${header}"></nav>
+	<div id="templatemo_container">
+		<div id="templatemo_content">
+			<div id="templatemo_content_left">
+				<nav th:replace="indexheader :: templatemo_content_left_sec"></nav>
+			</div>
+			<div id="templatemo_content_right">
+				<div class="cleaner_with_height">&nbsp;</div>
+				<div class="gom">
+					<form class="searchbar" th:action="@{/search/1}" method="get">
+						<div class="form-group searchs">
+							<input type="text" class="form-control" name="s"
+								placeholder="Search type book..."
+								style="margin: -10px 0px -3px -75px; padding: 0px 42px 0px 20px;" />
+							<button type="submit" class="btn btn-primary"
+								style="margin: -45px 0px 0px 77px; margin: -35px 10px 1px 130px;">
+								<img th:src="@{/images/icon_search.png}"
+									style="width: 30px; height: 30px;">
+							</button>
+						</div>
+					</form>
+				</div>
+				<div class="cleaner_with_height">&nbsp;</div>
+				<nav th:replace="listbook :: menubook"></nav>
+			</div>
+			<div class="cleaner_with_height">&nbsp;</div>
+		</div>
+		<!-- end of content -->
+	</div>
+
+	<footer th:replace="indexheader :: ${footer}"></footer>
+</body>
+
+</html>
